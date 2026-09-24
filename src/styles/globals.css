@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@layer components {
+    .form-control{
+        @apply rounded-lg w-full  border border-gray-400/40 focus:outline-none focus:border-green-600 transition-all duration-200 placeholder:font-bold
+    }
+    .btn{
+        @apply rounded-lg cursor-pointer bg-green-600 py-2 px-3 hover:bg-green-700 transition-all duration-200
+    }
+}
+.swiper-pagination-bullet{
+   background-color: white !important;
+   transition: all 0.3s ;
+   
+
+}
+.swiper-pagination-bullet:hover{
+    background-color: rgba(240, 248, 255, 0.708) !important;
+}
+.swiper-pagination-bullet-active{
+    width: 30px !important;
+    border-radius: 6px !important;
+}
+@theme {
+  --animate-float: float 3.6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
