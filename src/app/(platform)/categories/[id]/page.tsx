@@ -29,11 +29,13 @@ export default async function page({params}:{
        </div>
 
     </div>
-    <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
+   {filteredproducts.length>0? <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
      {filteredproducts.map((product)=>{
     return <Productcard key={product._id} product={product}/>
   })}
- </div>
+ </div>:<div>
+  <h1 className="text-center font-bold text-4xl "> No products Found</h1>
+  </div>}
  </section>
   
   </>

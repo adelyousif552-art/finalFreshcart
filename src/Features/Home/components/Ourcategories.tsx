@@ -14,7 +14,7 @@ export default async function Ourcategories() {
     <ul className="grid lg:grid-cols-6 grid-cols-2 md:grid-cols-4 gap-4">
        {response.data.map((item)=>{
         return  <li key={item._id} className="bg-white p-5 hover:shadow-xl shadow-lg cursor-pointer transition-all duration-200 rounded-lg ">
-           <Link href={`/category/${item._id}`} className="flex flex-col items-center gap-2">
+           <Link href={`/categories/${item._id}`} className="flex flex-col items-center gap-2">
             <div className="image relative size-20 rounded-full">
                 <Image src={item.image} alt={item.name} fill className="w-full rounded-full"/>
 
