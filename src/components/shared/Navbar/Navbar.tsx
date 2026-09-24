@@ -186,7 +186,7 @@ export default function Navbar() {
       <ul className='flex items-center gap-5 *:hover:text-green-600 *:transition-all *:duration-200 *:cursor-pointer '>
         <li><Link href={'/'}>Home</Link></li>
         <li><Link href={'/shop'}>Shop</Link></li>
-        <li><Link href={''}>Deals</Link></li>
+       
         
         <li><Link href={'/brands'}>Brands</Link></li>
         
