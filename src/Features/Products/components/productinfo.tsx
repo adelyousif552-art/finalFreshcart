@@ -19,6 +19,7 @@ import { log } from "console";
 import Image from "next/image";
 import boy from '../../../assets/images/boy.png'
 import { object } from "zod";
+import Popupreview from "./Popupreview";
 export default function Productinfo({data}:{data:Product}) {
     const islowstock=data.quantity>0&&data.quantity<10
     const onsale=data.priceAfterDiscount?data.priceAfterDiscount<data.price:false
@@ -26,6 +27,8 @@ export default function Productinfo({data}:{data:Product}) {
     const [selected,setselected]=useState<"ProductDetails"|"Reviews">('ProductDetails')
     const [products,setproducts]=useState<null|Product[]>(null)
     const [reviews,setreviews]=useState<null|Review[]>(null)
+    const [popreview,setpopupreview]=useState<boolean>(false)
+    
     const getreviews=async()=>{
         const response=await getproductreviews(data._id)
         setreviews(response.data)
@@ -177,13 +180,13 @@ showNav={false}
                 </div>
                 <div className="md:col-span-8 col-span-12 flex-col flex justify-center gap-2">
                    {Object.keys(ratingreview).map((key,index)=>{
-                    return  <div key={index} className="grid  grid-cols-12 gap-2 ">
-                        <div className="flex col-span-1 text-sm text-gray-500 items-center  gap-1">
+                    return  <div key={index} className="grid   grid-cols-12 gap-2 ">
+                        <div className="flex md:col-span-1 col-span-2 text-sm text-gray-500 items-center  gap-1">
                             <span className="  ">{key} </span>
                             <span><FontAwesomeIcon icon={faStar}/> </span>
                         </div>
                         
-                        <div className="border grow col-span-9 border-gray-400/20 bg-gray-100 rounded-full  h-3">
+                        <div className="border grow md:col-span-9 col-span-8 border-gray-400/20 bg-gray-100 rounded-full  h-3">
                         <div className={`one h-full rounded-full bg-green-600 `} style={{width:`${reviews?ratingreview[+key]/reviews?.length*100:0}%`}}></div>
                         
                     </div>
@@ -192,29 +195,42 @@ showNav={false}
                    })}
 
                 </div>
+                
 
 
             </div>
-            <div className="rev h-64 max-w-5xl mx-auto w-full overflow-y-auto space-y-8">
+            <div className="yourreview flex flex-col md:flex-row md:items-center my-10 md:justify-between gap-2 overflow-hidden bg-[#F2FBF6] rounded-xl p-5">
+                    <div>
+                        <p className="font-bold">Have you tried this product?</p>
+                        <p>Share your thoughts with other shoppers.</p>
+                    </div>
+                    <button onClick={()=>{
+                        setpopupreview(true)
+                    }} className="bg-[#22C55E] text-white rounded-lg hover:bg-green-700 cursor-pointer transition-all duration-200 shadow-lg py-2 px-4">Write a review</button>
+
+
+                </div>
+                
+            <div className="rev h-64 max-w-5xl mx-auto w-full  overflow-y-auto space-y-8">
               {reviews?reviews.map((review)=>{
                 return   <>
                 <div className="flex justify-between items-start gap-3">
-                    <div className="flex items-center gap-3">
-                         <div className="size-20 relative rounded-full" >
+                    <div className="flex  items-center gap-3">
+                         <div className="size-15 relative rounded-full" >
                      <Image src={boy} alt={review.user.name} fill/>
                      
                 </div>
                 <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-col md:flex-row  md:items-center gap-2">
                         <h3 className="font-bold">{review.user.name}</h3>
-                        <span className="text-green-600 font-bold bg-green-50 py-1 px-3 rounded-full"><FontAwesomeIcon icon={faCheck}/> Verified user</span>
+                        <span className="text-green-600 font-bold bg-green-50 py-1 text-xs px-3 rounded-full"><FontAwesomeIcon icon={faCheck}/> Verified user</span>
                     </div>
                     <Rating rating={review.rating}/>
                     <p className="">{review.review}</p>
                 </div>
                     </div>
                     <div>
-                        <span className="text-gray-500">{new Date(review.createdAt).toLocaleDateString()}</span>
+                        <span className="text-gray-500 text-sm">{new Date(review.createdAt).toLocaleDateString()}</span>
                     </div>
                 </div>
                
@@ -270,6 +286,7 @@ showNav={false}
         </div>
 
     </section>
+    {popreview?<Popupreview productname={data.title} productid={data._id} setpopup={setpopupreview} setreviewsofproduct={setreviews} />:''}
   
   </>
 }
