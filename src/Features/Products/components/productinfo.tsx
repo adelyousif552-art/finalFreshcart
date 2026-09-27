@@ -180,17 +180,17 @@ showNav={false}
                 </div>
                 <div className="md:col-span-8 col-span-12 flex-col flex justify-center gap-2">
                    {Object.keys(ratingreview).map((key,index)=>{
-                    return  <div key={index} className="grid items-center   grid-cols-12 gap-2 ">
+                    return  <div key={index} className="grid items-center    grid-cols-12 gap-2 ">
                         <div className="flex md:col-span-1 col-span-2 text-sm text-gray-500 items-center  gap-1">
                             <span className="  ">{key} </span>
                             <span><FontAwesomeIcon icon={faStar}/> </span>
                         </div>
                         
-                        <div className="border  md:col-span-9 col-span-6 border-gray-400/20 bg-gray-100 rounded-full  h-3">
+                        <div className="border  md:col-span-9 col-span-7 border-gray-400/20 bg-gray-100 rounded-full  h-3">
                         <div className={`one h-full rounded-full bg-green-600 `} style={{width:`${reviews?ratingreview[+key]/reviews?.length*100:0}%`}}></div>
                         
                     </div>
-                    <span className="md:col-span-2 col-span-4">{reviews?(ratingreview[+key]/reviews.length *100).toFixed(0):0} %</span>
+                    <span className="md:col-span-2 col-span-3">{reviews?(ratingreview[+key]/reviews.length *100).toFixed(0):0} %</span>
                     </div>
                    })}
 
@@ -215,15 +215,15 @@ showNav={false}
               {reviews?reviews.map((review)=>{
                 return   <>
                 <div className="flex justify-between items-start gap-3">
-                    <div className="flex  items-center gap-3">
-                         <div className="size-15 relative rounded-full" >
+                    <div className="grid grid-cols-[80px_1fr] ">
+                         <div className=" size-20  relative rounded-full" >
                      <Image src={boy} alt={review.user.name} fill/>
                      
                 </div>
-                <div className="space-y-2 text-sm">
+                <div className="space-y-2  text-sm">
                     <div className="flex flex-col md:flex-row  md:items-center gap-2">
                         <h3 className="font-bold">{review.user.name}</h3>
-                        <span className="text-green-600 font-bold bg-green-50 py-1 text-xs px-3 rounded-full"><FontAwesomeIcon icon={faCheck}/> Verified user</span>
+                        <span className="text-green-600 font-bold bg-green-50 py-1 w-fit text-xs px-3 rounded-full"><FontAwesomeIcon icon={faCheck}/> Verified user</span>
                     </div>
                     <Rating rating={review.rating}/>
                     <p className="">{review.review}</p>
