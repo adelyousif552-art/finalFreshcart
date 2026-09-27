@@ -25,7 +25,7 @@ export default function Orderdetails({orderinfo}:{orderinfo:Order}) {
   }
 }
   
-   className='p-10'>
+   className='p-2'>
     <div className='flex items-center gap-3'>
         <div className='size-10 flex items-center justify-center bg-green-200 rounded-xl'>
         <FontAwesomeIcon className='text-green-600' icon={faShoppingBag}/>
@@ -35,8 +35,8 @@ export default function Orderdetails({orderinfo}:{orderinfo:Order}) {
     <div className="items mt-5">
         <ul className='space-y-2'>
             {orderinfo.cartItems.map((product)=>{
-                return <li className='bg-white flex items-center justify-between p-5 rounded-lg' key={product._id}>
-                    <div className='flex items-center gap-3'>
+                return <li className='bg-white grid grid-cols-12  p-5 rounded-lg' key={product._id}>
+                    <div className='flex items-center col-span-10  gap-3'>
                         <div className="image w-20 h-20 flex items-center justify-center bg-gray-100">
                             <Image src={product.product.imageCover} alt={product.product.title} width={50} height={50}/>
 
@@ -46,7 +46,7 @@ export default function Orderdetails({orderinfo}:{orderinfo:Order}) {
                             <span className='text-gray-400'>{product.count} x {product.priceAfterDiscount?product.priceAfterDiscount:product.price}</span>
                         </div>
                     </div>
-                    <div className='text-gray-400'>
+                    <div className='text-gray-400 col-span-2  flex items-center justify-center'>
                         <span className='font-bold text-black'>{product.priceAfterDiscount?product.count*product.priceAfterDiscount:product.count*product.price}</span>
                          EGP
                     </div>
