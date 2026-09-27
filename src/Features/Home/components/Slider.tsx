@@ -34,7 +34,7 @@ export default function Slider() {
         }}>
             <div className='overlay h-full p-20  bg-linear-to-r from-green-500/90 to-green-400/20'>
             <div className="content space-y-3 ">
-                <h1 className='text-4xl text-white font-bold' >Fresh Products Delivered <br/> to your Door</h1>
+                <h1 className='text-4xl  text-white font-bold' >Fresh Products Delivered  to your Door</h1>
                 <p className='text-gray-100'>Get 20% off your first order</p>
                 <div className='space-x-5'>
                     <button className='btn bg-white text-green-600'>Shop Now</button>
@@ -56,7 +56,7 @@ export default function Slider() {
         }}>
             <div className='overlay h-full p-20  bg-linear-to-r from-green-500/90 to-green-400/20'>
             <div className="content space-y-3 ">
-                <h1 className='text-4xl text-white font-bold' >Premium Quality <br/> Guaranteed </h1>
+                <h1 className='text-4xl text-white font-bold' >Premium Quality  Guaranteed </h1>
                 <p className='text-gray-100'>fresh from farm to your table</p>
                 <div className='space-x-5'>
                     <button className='btn bg-white text-green-600'>Shop Now</button>

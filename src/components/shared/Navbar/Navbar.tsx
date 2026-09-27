@@ -203,7 +203,7 @@ export default function Navbar() {
 
    onClick={()=>{
     setmenuisopen(false)
-   }} className="sidelayer cursor-pointer fixed inset-0 bg-black/10 ">
+   }} className="sidelayer z-50 cursor-pointer fixed inset-0 bg-black/10 ">
     <motion.aside 
     initial={{x:-300}}
    animate={{x:0}}
@@ -215,7 +215,7 @@ export default function Navbar() {
     onClick={(e)=>{
       e.stopPropagation()
 
-    }} className='bg-white min-h-screen space-y-5 w-72 max-w-full  p-5 shadow-lg '>
+    }} className='bg-white  min-h-screen space-y-5 w-72 max-w-full  p-5 shadow-lg '>
       <div className='flex items-center justify-between'>
         <h1 className='font-bold cursor-pointer text-2xl'>FreshCart</h1>
         <button onClick={()=>{

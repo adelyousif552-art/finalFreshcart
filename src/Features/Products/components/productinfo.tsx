@@ -7,19 +7,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight, faArrowLeft, faArrowRight, faBolt, faCartShopping, faChain, faCheck, faChevronLeft, faChevronRight, faMinus, faPlug, faPlus, faShareNodes, faShoppingBag, faStar, faTruck } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { Span } from "next/dist/trace";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faCommentDots, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css'
 import {Navigation} from 'swiper/modules'
 import 'swiper/css/navigation'
-import { getallproducts } from "../server/getproducts.server";
+import { getallproducts, getproductreviews } from "../server/getproducts.server";
 import Productcard from "./productcard";
+import { Review } from "../types/review.types";
+import { log } from "console";
+import Image from "next/image";
+import boy from '../../../assets/images/boy.png'
+import { object } from "zod";
 export default function Productinfo({data}:{data:Product}) {
     const islowstock=data.quantity>0&&data.quantity<10
     const onsale=data.priceAfterDiscount?data.priceAfterDiscount<data.price:false
     const [number,setnumber]=useState(1)
-    const [selected,setselected]=useState<"ProductDetails"|"Reviews"|"Delivery">('ProductDetails')
+    const [selected,setselected]=useState<"ProductDetails"|"Reviews">('ProductDetails')
     const [products,setproducts]=useState<null|Product[]>(null)
+    const [reviews,setreviews]=useState<null|Review[]>(null)
+    const getreviews=async()=>{
+        const response=await getproductreviews(data._id)
+        setreviews(response.data)
+
+    }
     const getproducts=async()=>{
         const response=await getallproducts()
         setproducts(response.data)
@@ -28,12 +39,28 @@ export default function Productinfo({data}:{data:Product}) {
     const Relatedproducts=products?.filter((product)=>product.category.name===data.category.name&&product._id!==data._id)
     useEffect(()=>{
         getproducts()
+        getreviews()
     },[])
+    
+    const ratingreview:Record<number,number>={
+        1:0,
+        2:0,
+        3:0,
+        4:0,
+        5:0
+    }
+    {reviews?.map((review)=>{
+        if(review.rating){
+            ratingreview[+review.rating.toFixed(0)]++
+        }
+    })}
+    console.log(ratingreview);
+    
     
 
   return <>
   <section className="grid bg-white p-5 grid-cols-12 gap-5 max-w-7xl mx-auto w-full ">
-    <div className="gallery border shadow-lg border-gray-500/20 col-span-4">
+    <div className="gallery border shadow-lg border-gray-500/20 lg:col-span-4 col-span-12">
 <ImageGallery items={data.images.map((image)=>{
     return {
         original:image,
@@ -44,7 +71,7 @@ showPlayButton={false}
 showNav={false}
 />
     </div>
-    <div className="content border border-gray-500/20 p-5 shadow-lg space-y-3 col-span-8 ">
+    <div className="content border border-gray-500/20 p-5 shadow-lg space-y-3 lg:col-span-8 col-span-12 ">
         <h1 className="font-bold text-4xl">{data.title}</h1>
         <div>
             <Rating rating={data.ratingsAverage}/>
@@ -96,16 +123,14 @@ showNav={false}
 
   </section>
    <section className="max-w-7xl mx-auto w-full bg-white shadow-lg p-5">
-        <ul className="flex items-center gap-3">
-            <li className={`${selected==="ProductDetails"?'bg-green-100 text-green-600 after:w-full':''} after:w-0 p-2 cursor-pointer hover:after:w-full after:transition-all after:duration-400 after:left-0 after:h-1 after:bg-green-600 after:absolute relative after:bottom-0  `} onClick={()=>{
+        <ul className="flex items-center *:gap-2 *:flex *:items-center   gap-3">
+            <li className={`${selected==="ProductDetails"?'bg-green-100  text-green-600 after:w-full':''} after:w-0 p-2 cursor-pointer hover:after:w-full after:transition-all after:duration-400 after:left-0 after:h-1 after:bg-green-600 after:absolute relative after:bottom-0  `} onClick={()=>{
                 setselected('ProductDetails')
-            }}><FontAwesomeIcon icon={faShoppingBag}/> <span>Product Details</span></li>
+            }}><FontAwesomeIcon className="" icon={faShoppingBag}/> <span className="">ProductDetails</span></li>
             <li className={`${selected==="Reviews"?'bg-green-100 text-green-600 after:w-full':''} after:w-0 p-2  cursor-pointer hover:after:w-full after:transition-all after:duration-400 after:left-0 after:h-1 after:bg-green-600 after:absolute relative after:bottom-0  `} onClick={()=>{
                 setselected('Reviews')
-            }}><FontAwesomeIcon icon={faStar}/> <span>Reviews (6)</span></li>
-            <li className={`${selected==="Delivery"?'bg-green-100 text-green-600 after:w-full':''} cursor-pointer after:w-0 p-2 hover:after:w-full after:transition-all after:duration-400 after:left-0 after:h-1 after:bg-green-600 after:absolute relative after:bottom-0  `} onClick={()=>{
-                setselected('Delivery')
-            }}><FontAwesomeIcon icon={faTruck}/> <span>Shipping & Returns</span></li>
+            }}><FontAwesomeIcon icon={faStar}/> <span className="">Reviews({reviews?.length})</span></li>
+            
         </ul>
         {selected=="ProductDetails"?<div className="p-2 mt-5">
             <h1 className="font-bold">About This Product</h1>
@@ -136,6 +161,72 @@ showNav={false}
             </div>
 
         </div>:''}
+        {selected==='Reviews'?<>
+        <div className="Reviews bg-white p-5">
+            <span className="bg-[#F2FBF6] py-1 px-3 rounded-full"> <FontAwesomeIcon icon={faCommentDots}/> <span className="text-green-600">Customer feedback</span></span>
+            
+            <div className="grid grid-cols-12 my-10">
+                <div className=" md:col-span-4 col-span-12 space-y-2  text-center">
+                    <h1 className="text-4xl font-bold ">Rating & Reviews</h1>
+                    <h2 className="text-2xl font-bold">
+                        {data.ratingsAverage}
+                    </h2>
+                    <Rating rating={data.ratingsAverage}/>
+                    <p className="text-gray-500">Based on {data.ratingsQuantity} reviews</p>
+
+                </div>
+                <div className="md:col-span-8 col-span-12 flex-col flex justify-center gap-2">
+                   {Object.keys(ratingreview).map((key,index)=>{
+                    return  <div key={index} className="grid  grid-cols-12 gap-2 ">
+                        <div className="flex col-span-1 text-sm text-gray-500 items-center  gap-1">
+                            <span className="  ">{key} </span>
+                            <span><FontAwesomeIcon icon={faStar}/> </span>
+                        </div>
+                        
+                        <div className="border grow col-span-9 border-gray-400/20 bg-gray-100 rounded-full  h-3">
+                        <div className={`one h-full rounded-full bg-green-600 `} style={{width:`${reviews?ratingreview[+key]/reviews?.length*100:0}%`}}></div>
+                        
+                    </div>
+                    <span className="col-span-2">{reviews?(ratingreview[+key]/reviews.length *100).toFixed(0):0} %</span>
+                    </div>
+                   })}
+
+                </div>
+
+
+            </div>
+            <div className="rev h-64 max-w-5xl mx-auto w-full overflow-y-auto space-y-8">
+              {reviews?reviews.map((review)=>{
+                return   <>
+                <div className="flex justify-between items-start gap-3">
+                    <div className="flex items-center gap-3">
+                         <div className="size-20 relative rounded-full" >
+                     <Image src={boy} alt={review.user.name} fill/>
+                     
+                </div>
+                <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                        <h3 className="font-bold">{review.user.name}</h3>
+                        <span className="text-green-600 font-bold bg-green-50 py-1 px-3 rounded-full"><FontAwesomeIcon icon={faCheck}/> Verified user</span>
+                    </div>
+                    <Rating rating={review.rating}/>
+                    <p className="">{review.review}</p>
+                </div>
+                    </div>
+                    <div>
+                        <span className="text-gray-500">{new Date(review.createdAt).toLocaleDateString()}</span>
+                    </div>
+                </div>
+               
+                </>
+              }):''}
+            </div>
+
+
+
+        </div>
+        
+        </>:''}
     </section>
     <section className="relatedproducts bg-white p-5 mt-5 shadow-lg max-w-7xl w-full mx-auto">
         <header className="flex items-center justify-between">
@@ -147,13 +238,24 @@ showNav={false}
         </header>
         <div>
             <Swiper
-            slidesPerView={5}
+            slidesPerView={1}
             spaceBetween={10}
             modules={[Navigation]}
             navigation={{
                 prevEl:'.custom-prev',
                 nextEl:'.custom-next'
             }}
+           breakpoints={{
+    640: {
+        slidesPerView: 2,
+    },
+    1024: {
+        slidesPerView: 4,
+    },
+    1280: {
+        slidesPerView: 5,
+    },
+}}
             >
                 {Relatedproducts?Relatedproducts.length>0?
                 Relatedproducts.map((product)=><SwiperSlide key={product._id}>

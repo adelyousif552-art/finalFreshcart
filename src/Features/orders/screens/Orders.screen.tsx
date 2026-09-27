@@ -34,9 +34,9 @@ export default function Ordersscreen() {
     return <PageLoader/>
   }
   return <>
-  <section className="max-w-7xl mx-auto w-full ">
+  <section className="max-w-7xl mx-auto w-full  ">
    {orders.length>0?<>
-    <div className="header gap-3 flex items-center">
+    <div className="header gap-3 flex items-center my-5">
         <div className="size-12 rounded-xl bg-green-600 text-white flex items-center justify-center">
             <FontAwesomeIcon icon={faBagShopping}/>
 
