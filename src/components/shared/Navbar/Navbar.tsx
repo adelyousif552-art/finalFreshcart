@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import {FontAwesomeIcon} from'../../../../node_modules/@fortawesome/react-fontawesome'
-import {faAddressCard, faArrowDown, faArrowRightFromBracket, faBabyCarriage, faBars, faBolt, faBurger, faEllipsis, faEnvelope, faHospital, faList, faPerson, faPersonDress, faPhone, faRightFromBracket, faRotate, faSearch, faShoppingBag, faShoppingCart, faUserPlus, faXmark} from'../../../../node_modules/@fortawesome/free-solid-svg-icons'
+import {faAddressCard, faArrowDown, faArrowRightFromBracket, faBabyCarriage, faBars, faBolt, faBurger, faEllipsis, faEnvelope, faHome, faHospital, faList, faPerson, faPersonDress, faPhone, faRightFromBracket, faRotate, faSearch, faShoppingBag, faShoppingCart, faUserPlus, faXmark} from'../../../../node_modules/@fortawesome/free-solid-svg-icons'
 import {faHeart, faUser} from'../../../../node_modules/@fortawesome/free-regular-svg-icons'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -232,19 +232,37 @@ export default function Navbar() {
           <div className="mainmenu">
             <h2 className='font-bold'>Main Menu</h2>
             <ul className='p-2 *:hover:bg-green-300/30 *:py-1 *:px-3  *:space-x-2 space-y-4'>
-              <li className={`${currentpath==='/wishlist'?'bg-green-300/30':''}`}>
-                <Link  className='space-x-2' href={'/wishlist'}>
+            <li   onClick={()=>{
+              router.push('/')
+            }} className={`${currentpath==='/'?'bg-green-300/30':''}`}>
+                <Link  className='space-x-2 w-full' href={'/'}>
+                <FontAwesomeIcon icon={faHome}/>
+                <span>Home</span></Link>
+              </li>
+              <li onClick={()=>{
+                router.push('/shop')
+              }}  className={`${currentpath==='/shop'?'bg-green-300/30':''}`}>
+                <Link  className='space-x-2 w-full' href={'/shop'}>
+                <FontAwesomeIcon icon={faShoppingBag}/>
+                <span>Shop</span></Link>
+              </li>
+              <li onClick={()=>{
+                router.push('/wishlist')
+              }}  className={`${currentpath==='/wishlist'?'bg-green-300/30':''}`}>
+                <Link  className='space-x-2 w-full' href={'/wishlist'}>
                 <FontAwesomeIcon icon={faHeart}/>
                 <span>Wishlist</span></Link>
               </li>
-              <li className={`${currentpath==='/cart'?'bg-green-300/30':''}`}>
-                <Link  className='space-x-2' href={'/cart'}>
+              <li onClick={()=>{
+                router.push('/cart')
+              }}  className={`${currentpath==='/cart'?'bg-green-300/30':''}`}>
+                <Link  className='space-x-2 w-full' href={'/cart'}>
                 <FontAwesomeIcon icon={faShoppingCart}/>
                 <span>Cart</span>
                 </Link>
               </li>
               <li >
-                <Link  className='space-x-2' href={'/'}>
+                <Link  className='space-x-2 w-full' href={'/'}>
                 <FontAwesomeIcon icon={faUser}/>
                 <span>user</span></Link>
               </li>
@@ -254,19 +272,23 @@ export default function Navbar() {
             <h2 className='font-bold'>Account</h2>
             <ul className='p-2 *:py-1 *:px-3 *:hover:bg-green-300/30 *:transition-all *:duration-200  space-y-4'>
              
-             {isauthinticated? <li onClick={logout}  className='space-x-2'>
+             {isauthinticated? <li onClick={logout}  className='space-x-2 '>
                 <FontAwesomeIcon icon={faArrowRightFromBracket} />
                 <span>Logout</span>
               </li>:<>
               
-               <li className={`${currentpath==='/signup'?'bg-green-300/30':''}`}>
-                <Link className='space-x-2' href={'/signup'}>
+               <li onClick={()=>{
+                router.push('/signup')
+               }} className={`${currentpath==='/signup'?'bg-green-300/30':''}`}>
+                <Link className='space-x-2 w-full' href={'/signup'}>
                 <FontAwesomeIcon icon={faUserPlus}/>
                 <span>Signup</span>
                 </Link>
               </li>
-              <li className={`${currentpath==='/login'?'bg-green-300/30':''}`}>
-                <Link  className='space-x-2' href={'/login'}>
+              <li onClick={()=>{
+                router.push('/login')
+               }} className={`${currentpath==='/login'?'bg-green-300/30':''}`}>
+                <Link  className='space-x-2 w-full' href={'/login'}>
                 <FontAwesomeIcon icon={faAddressCard} />
                 <span>Login</span>
                 </Link>

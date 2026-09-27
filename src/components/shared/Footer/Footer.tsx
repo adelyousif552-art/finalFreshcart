@@ -24,23 +24,23 @@ export default function Footer() {
     <section className="space-y-3">
       <h2 className="font-bold">Categories</h2>
       <ul className="text-gray-500 space-y-3 **:hover:text-gray-800 **:transition-all **:duration-200">
-       <li> <Link  className='space-x-2' href={'/mensfashion'}>
+       <li> <Link  className='space-x-2' href={'/categories/6439d5b90049ad0b52b90048'}>
           <span>Men's Fashion</span>
           </Link>
           </li>
-       <li>  <Link className='space-x-2' href={'/womensfashion'}>
+       <li>  <Link className='space-x-2' href={'/categories/6439d58a0049ad0b52b9003f'}>
           <span>women's Fashion</span>
           </Link>
           </li>
-       <li><Link className='space-x-2' href={'/baby'}>
+       <li><Link className='space-x-2' href={'/categories/6439d40367d9aa4ca97064cc'}>
           <span>Baby & Toys</span>
           </Link>
           </li>
-       <li><Link className='space-x-2' href={'/beauty'}>
+       <li><Link className='space-x-2' href={'/categories/6439d2d167d9aa4ca970649f'}>
           <span>Beauty & Health</span>
           </Link>
           </li>
-       <li> <Link className='space-x-2' href={'/electronics'}>
+       <li> <Link className='space-x-2' href={'/categories/6439d2d167d9aa4ca970649f'}>
           <span>Electronics</span>
           </Link>
           </li>
@@ -60,7 +60,7 @@ export default function Footer() {
       <h2 className="font-bold">Customer Service</h2>
       <ul className="text-gray-500 space-y-3 *:hover:text-gray-800 *:transition-all *:duration-200 *:cursor-pointer">
        <li><Link href={'/myaccount'}>My Account</Link></li>
-       <li><Link href={'/orderhistory'}>Order History</Link></li>
+       <li><Link href={'/allorders'}>Order History</Link></li>
        <li><Link href={'/wishlist'}>Wishlist</Link></li>
        <li><Link href={'/returnsfunds'}>Returns & Refunds</Link></li>
        <li><Link href={'/helpcenter'}>Help Center</Link></li>
