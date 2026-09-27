@@ -32,11 +32,11 @@ export default function Slider() {
             backgroundSize:"cover",
             backgroundPosition:'center'
         }}>
-            <div className='overlay h-full p-20  bg-linear-to-r from-green-500/90 to-green-400/20'>
+            <div className='overlay h-full md:p-20 flex items-center md:block justify-center  p-10  bg-linear-to-r from-green-500/90 to-green-400/20'>
             <div className="content space-y-3 ">
                 <h1 className='text-4xl  text-white font-bold' >Fresh Products Delivered  to your Door</h1>
                 <p className='text-gray-100'>Get 20% off your first order</p>
-                <div className='space-x-5'>
+                <div className='flex items-center gap-2'>
                     <button className='btn bg-white text-green-600'>Shop Now</button>
                     <button className='btn bg-transparent border-2 border-white/70 text-white'>View Deals</button>
                 </div>
@@ -54,11 +54,11 @@ export default function Slider() {
             backgroundSize:"cover",
             backgroundPosition:'center'
         }}>
-            <div className='overlay h-full p-20  bg-linear-to-r from-green-500/90 to-green-400/20'>
+            <div className='overlay h-full md:p-20 flex items-center md:block justify-center  p-10  bg-linear-to-r from-green-500/90 to-green-400/20'>
             <div className="content space-y-3 ">
                 <h1 className='text-4xl text-white font-bold' >Premium Quality  Guaranteed </h1>
                 <p className='text-gray-100'>fresh from farm to your table</p>
-                <div className='space-x-5'>
+                <div className='flex items-center gap-2'>
                     <button className='btn bg-white text-green-600'>Shop Now</button>
                     <button className='btn bg-transparent border-2 border-white/70 text-white'>View Deals</button>
                 </div>
@@ -75,11 +75,11 @@ export default function Slider() {
             backgroundSize:"cover",
             backgroundPosition:'center'
         }}>
-            <div className='overlay h-full p-20  bg-linear-to-r from-green-500/90 to-green-400/20'>
+            <div className='overlay h-full md:p-20 flex items-center md:block justify-center  p-10  bg-linear-to-r from-green-500/90 to-green-400/20'>
             <div className="content space-y-3 ">
                 <h1 className='text-4xl text-white font-bold' >fast & free Delivery</h1>
                 <p className='text-gray-100'>same day delivery available</p>
-                <div className='space-x-5'>
+                <div className='flex items-center gap-2'>
                     <button className='btn bg-white text-green-600'>Shop Now</button>
                     <button className='btn bg-transparent border-2 border-white/70 text-white'>View Deals</button>
                 </div>
