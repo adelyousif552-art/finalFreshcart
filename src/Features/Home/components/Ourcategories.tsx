@@ -8,10 +8,10 @@ import Header from "@/components/shared/header/Header";
 export default async function Ourcategories() {
     const response=await getallcategories()
   return <>
-  <section className="mt-10 bg-white p-20">
+  <section className="mt-10 bg-white p-5">
    <Header firsttitle="Shop By" secondtitle="Category"/>
   <section className="max-w-6xl mx-auto mt-10">
-    <ul className="grid lg:grid-cols-6 grid-cols-2 md:grid-cols-4 gap-4">
+    <ul className="grid lg:grid-cols-6 grid-cols-1 md:grid-cols-4 gap-4">
        {response.data.map((item)=>{
         return  <li key={item._id} className="bg-white p-5 hover:shadow-xl shadow-lg cursor-pointer transition-all duration-200 rounded-lg ">
            <Link href={`/categories/${item._id}`} className="flex flex-col items-center gap-2">

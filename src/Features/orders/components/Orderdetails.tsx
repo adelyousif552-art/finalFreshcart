@@ -60,7 +60,7 @@ export default function Orderdetails({orderinfo}:{orderinfo:Order}) {
 
   </motion.div>
   <section className='grid gap-3 p-10 grid-cols-2'>
-    <div className='bg-white shadow p-5'>
+    <div className='bg-white shadow col-span-2 md:col-span-1 p-5'>
      <div className='flex items-center gap-2 my-5'>
        <div className='size-8 rounded-xl flex items-center justify-center bg-blue-100'>
         <FontAwesomeIcon className='text-blue-600' icon={faLocationDot}/>
@@ -73,7 +73,7 @@ export default function Orderdetails({orderinfo}:{orderinfo:Order}) {
       <li className='text-gray-500 space-x-1'><FontAwesomeIcon icon={faPhone}/><span>{orderinfo.shippingAddress?.phone}</span></li>
      </ul>
     </div>
-    <div className="oredersummary p-5 bg-blue-200 shadow">
+    <div className="oredersummary col-span-2 md:col-span-1 p-5 bg-blue-200 shadow">
        <div className='flex items-center gap-2 my-5'>
        <div className='size-8 rounded-xl flex items-center justify-center bg-blue-600'>
         <FontAwesomeIcon className='text-white' icon={faTruck}/>

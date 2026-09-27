@@ -40,8 +40,8 @@ export default function Ordercard({orderinfo}:{orderinfo:Order}) {
     const status=getstatus()
     const [opendetails,setopendetails]=useState<boolean>(false)
   return<>
-  <div className="bg-white flex items-center justify-between rounded-xl p-5">
-    <div className="flex items-center gap-3">
+  <div className="bg-white grid grid-cols-12 gap-5 rounded-xl p-5">
+    <div className="flex items-center md:col-span-10 col-span-12 gap-3">
         <div className="image w-20 h-28 flex items-center justify-center relative">
         <Image src={orderinfo.cartItems[0].product.imageCover} alt={orderinfo.cartItems[0].product.title} width={50} height={50}/>
        {orderinfo.cartItems.length-1>0? <span className="size-7 rounded-full absolute top-0 right-1 bg-black flex items-center text-white justify-center">
@@ -69,7 +69,7 @@ export default function Ordercard({orderinfo}:{orderinfo:Order}) {
 
     </div>
     </div>
-    <div className="  self-stretch flex flex-col items-center justify-between ">
+    <div className=" md:col-span-2 col-span-12 flex md:flex-col  items-center justify-between ">
         <div className={`size-8 rounded-xl flex  items-center ${orderinfo.paymentMethodType=='card'?'bg-violet-100 text-violet-500':'bg-gray-100 text-gray-400'} justify-center`}>
             <FontAwesomeIcon icon={orderinfo.paymentMethodType=='card'?faCreditCard:faMoneyBill}/>
 

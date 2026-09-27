@@ -43,8 +43,8 @@ export default function Promo() {
         }
     ]
   return <>
-  <section className="mt-5 max-w-6xl mx-auto">
-   <ul className="grid lg:grid-cols-4 grid-cols-2  gap-4">
+  <section className="mt-5 md:max-w-6xl md:mx-auto p-5">
+   <ul className="grid lg:grid-cols-4 grid-cols-1 sm:grid-cols-2  gap-4">
     {promolist.map((promo,index)=>{
         return <li key={index} className=" bg-white p-5 rounded-lg shadow-lg flex items-center gap-4">
         <div className={`size-8 rounded-full ${promo.bgcolor} flex items-center justify-center`}>
