@@ -168,7 +168,7 @@ showNav={false}
         <div className="Reviews bg-white p-5">
             <span className="bg-[#F2FBF6] py-1 px-3 rounded-full"> <FontAwesomeIcon icon={faCommentDots}/> <span className="text-green-600">Customer feedback</span></span>
             
-            <div className="grid grid-cols-12 my-10">
+            <div className="grid  grid-cols-12 my-10">
                 <div className=" md:col-span-4 col-span-12 space-y-2  text-center">
                     <h1 className="text-4xl font-bold ">Rating & Reviews</h1>
                     <h2 className="text-2xl font-bold">
@@ -180,17 +180,17 @@ showNav={false}
                 </div>
                 <div className="md:col-span-8 col-span-12 flex-col flex justify-center gap-2">
                    {Object.keys(ratingreview).map((key,index)=>{
-                    return  <div key={index} className="grid   grid-cols-12 gap-2 ">
+                    return  <div key={index} className="grid items-center   grid-cols-12 gap-2 ">
                         <div className="flex md:col-span-1 col-span-2 text-sm text-gray-500 items-center  gap-1">
                             <span className="  ">{key} </span>
                             <span><FontAwesomeIcon icon={faStar}/> </span>
                         </div>
                         
-                        <div className="border grow md:col-span-9 col-span-8 border-gray-400/20 bg-gray-100 rounded-full  h-3">
+                        <div className="border  md:col-span-9 col-span-6 border-gray-400/20 bg-gray-100 rounded-full  h-3">
                         <div className={`one h-full rounded-full bg-green-600 `} style={{width:`${reviews?ratingreview[+key]/reviews?.length*100:0}%`}}></div>
                         
                     </div>
-                    <span className="col-span-2">{reviews?(ratingreview[+key]/reviews.length *100).toFixed(0):0} %</span>
+                    <span className="md:col-span-2 col-span-4">{reviews?(ratingreview[+key]/reviews.length *100).toFixed(0):0} %</span>
                     </div>
                    })}
 
