@@ -4,10 +4,10 @@ import "react-image-gallery/styles/image-gallery.css";
 import { Product } from "../types/product.type";
 import Rating from "@/components/shared/Rating/Rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight, faArrowLeft, faArrowRight, faBolt, faCartShopping, faChain, faCheck, faChevronLeft, faChevronRight, faMinus, faPlug, faPlus, faShareNodes, faShoppingBag, faStar, faTruck } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight, faArrowLeft, faArrowRight, faBolt, faCartShopping, faChain, faCheck, faChevronLeft, faChevronRight, faMinus, faPen, faPlug, faPlus, faShareNodes, faShoppingBag, faStar, faTrash, faTrashAlt, faTruck } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { Span } from "next/dist/trace";
-import { faCommentDots, faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faCommentDots, faHeart, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css'
 import {Navigation} from 'swiper/modules'
@@ -20,6 +20,9 @@ import Image from "next/image";
 import boy from '../../../assets/images/boy.png'
 import { object } from "zod";
 import Popupreview from "./Popupreview";
+import { useAppSelector } from "@/store/store";
+import { deletereview } from "../server/review.server";
+import { toast } from "react-toastify";
 export default function Productinfo({data}:{data:Product}) {
     const islowstock=data.quantity>0&&data.quantity<10
     const onsale=data.priceAfterDiscount?data.priceAfterDiscount<data.price:false
@@ -28,6 +31,10 @@ export default function Productinfo({data}:{data:Product}) {
     const [products,setproducts]=useState<null|Product[]>(null)
     const [reviews,setreviews]=useState<null|Review[]>(null)
     const [popreview,setpopupreview]=useState<boolean>(false)
+    const {userinfo}=useAppSelector((state)=>{
+        return state.auth
+    })
+   const myreview=reviews?.find((review)=>review.user._id===userinfo?.id)
     
     const getreviews=async()=>{
         const response=await getproductreviews(data._id)
@@ -38,6 +45,21 @@ export default function Productinfo({data}:{data:Product}) {
         const response=await getallproducts()
         setproducts(response.data)
 
+    }
+     const deleterev=async()=>{
+        try {
+            if(myreview){
+                const response=await deletereview(myreview._id)
+                
+                toast.success('your review is deleted')
+                getreviews()
+                console.log(response);
+
+                
+            }
+        } catch (error) {
+            toast.error('something went wrong')
+        }
     }
     const Relatedproducts=products?.filter((product)=>product.category.name===data.category.name&&product._id!==data._id)
     useEffect(()=>{
@@ -211,8 +233,12 @@ showNav={false}
 
                 </div>
                 
-            <div className="rev h-64 max-w-5xl mx-auto w-full  overflow-y-auto space-y-8">
+            <div className="rev h-64 p-3 w-full  overflow-y-auto space-y-8">
               {reviews?reviews.map((review)=>{
+                if(review.user._id==userinfo?.id){
+                    
+
+                }
                 return   <>
                 <div className="flex justify-between items-start gap-3">
                     <div className="grid grid-cols-[80px_1fr] ">
@@ -229,8 +255,14 @@ showNav={false}
                     <p className="">{review.review}</p>
                 </div>
                     </div>
-                    <div>
+                    <div className="flex items-center gap-3">
                         <span className="text-gray-500 text-sm">{new Date(review.createdAt).toLocaleDateString()}</span>
+                        {review.user._id==userinfo?.id?<>
+                        <button onClick={()=>{
+                            setpopupreview(true)
+                        }} className="border border-gray-500/20 rounded-lg p-1 hover:border-green-500 transition-all duration-200  hover:bg-green-100 bg-white"><FontAwesomeIcon icon={faPenToSquare}/></button>
+                        <button onClick={deleterev} className="border border-gray-500/20 rounded-lg p-1  hover:border-red-500 transition-all duration-200 hover:bg-red-100 bg-white"><FontAwesomeIcon icon={faTrashAlt}/></button>
+                        </>:''}
                     </div>
                 </div>
                
@@ -286,7 +318,7 @@ showNav={false}
         </div>
 
     </section>
-    {popreview?<Popupreview productname={data.title} productid={data._id} setpopup={setpopupreview} setreviewsofproduct={setreviews} />:''}
+    {popreview?<Popupreview productname={data.title} reviews={reviews} productid={data._id} setpopup={setpopupreview} setreviewsofproduct={setreviews} />:''}
   
   </>
 }

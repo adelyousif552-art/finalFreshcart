@@ -3,7 +3,7 @@ import {email, z} from "zod"
 export const signupchema=z.object({
     name:z.string().nonempty('name is required').min(3),
     email:z.string().nonempty('email is required').pipe(z.email('invalid email')),
-    password:z.string().nonempty('password is required').min(8).regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/),
+    password:z.string().nonempty('password is required').min(8).regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,`-At least one upper case English letter , -At least one lower case English letter , -At least one digit , -At least one special character or space Minimum eight in length`),
     rePassword:z.string(),
     phone:z.string().nonempty('phone is required').regex(/^01[0125]\d{8}$/),
     terms:z.boolean().refine((value)=>value,{message:'you must accept conditions'})

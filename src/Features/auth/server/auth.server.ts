@@ -2,6 +2,7 @@
 
 import axios, { AxiosRequestConfig } from "axios"
 import { cookies } from "next/headers"
+import { Resetpasstype } from "../schemas/resetpass.schema"
 
 export async function settoken(token:string,rememberme:boolean):Promise<void>{
     const cookiestore=await cookies()
@@ -65,4 +66,44 @@ export async function verifytoken(){
             userinfo:null
         }
     }
+}
+export async function forgotpassword(value:{email:string}){
+    try {
+        const options:AxiosRequestConfig={
+            url:'https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords',
+            method:'POST',
+            data:value
+        }
+        const {data}=await axios.request(options)
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+export async function verifyresetcode(value:{resetCode:string}){
+    try {
+        const options:AxiosRequestConfig={
+            url:'https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode',
+            method:'POST',
+            data:value
+        }
+        const {data}=await axios.request(options)
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+export async function Resetpass(values:Resetpasstype){
+    try {
+        const options:AxiosRequestConfig={
+            url:'https://ecommerce.routemisr.com/api/v1/auth/resetPassword',
+            method:'PUT',
+            data:values
+        }
+        const {data}=await axios.request(options)
+        return data
+    } catch (error) {
+        throw error
+    }
+
 }

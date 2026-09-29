@@ -30,3 +30,52 @@ export async function createreview(value:{
         throw error
     }
 }
+export async function updatereview(value:{
+    review:string,
+    rating:number
+},reviewid:string){
+     const cookiestore=await cookies()
+    const token =cookiestore.get('token')?.value||null
+    if(!token){
+        throw error('Authintication required')
+    }
+
+    try {
+        const options:AxiosRequestConfig={
+            url:`https://ecommerce.routemisr.com/api/v1/reviews/${reviewid}`,
+            method:'PUT',
+            headers:{
+                token,
+                "Content-Type":"application/json"
+            },
+            data:value
+        }
+        const {data}=await axios.request(options)
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+export async function deletereview(reviewid:string){
+     const cookiestore=await cookies()
+    const token =cookiestore.get('token')?.value||null
+    if(!token){
+        throw error('Authintication required')
+    }
+
+    try {
+        const options:AxiosRequestConfig={
+            url:`https://ecommerce.routemisr.com/api/v1/reviews/${reviewid}`,
+            method:'DELETE',
+            headers:{
+                token,
+                
+            },
+            
+        }
+        const {data}=await axios.request(options)
+        return data
+    } catch (error) {
+        throw error
+    }
+}

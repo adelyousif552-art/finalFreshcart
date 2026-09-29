@@ -3,7 +3,7 @@ import Divider from '@/components/Ui/divider/Divider'
 import Formfield from '@/components/Ui/Formfield/Formfield'
 import { faSpinner, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Loginschema, Loginschematype } from '../../schemas/login.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,14 +12,22 @@ import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import Loginserver from '../../server/Login.server'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import { settoken } from '../../server/auth.server'
+import { forgotpassword, settoken } from '../../server/auth.server'
 import { setauth } from '../../store/auth.slice'
 import { useDispatch } from 'react-redux'
+import Forgotpassword from '../Forgotpassword'
+import Resetcode from '../Resetcode'
+import ResetPassword from '../ResetPassword'
 
 export default function Loginform() {
   const dispatch=useDispatch()
+  const [emailpopup,setemailpopup]=useState(false)
+  const [resetcodepopup,setresetcodepopup]=useState(false)
+  const [resetpasswordpopup,setresetpasswordpopup]=useState(false)
+  const [email2,setemail]=useState<string>('')
+  
   const router=useRouter()
-    const {register,handleSubmit,setError,formState:{errors,isSubmitting,isDirty,isValid}}=useForm<Loginschematype>({
+    const {register,getValues,handleSubmit,setError,formState:{errors,isSubmitting,isDirty,isValid}}=useForm<Loginschematype>({
         defaultValues:{
             email:'',
             password:''
@@ -27,6 +35,8 @@ export default function Loginform() {
         resolver:zodResolver(Loginschema)
     })
     const onsubmit:SubmitHandler<Loginschematype>=async function(values){
+      console.log(errors);
+      
         const response=await Loginserver(values)
         if(response?.success){
           toast.success(response.message)
@@ -46,6 +56,7 @@ export default function Loginform() {
         }
         
     }
+   
   return<>
   
   <section className='bg-white mx-auto  max-w-xl shadow-lg space-y-5 rounded-lg p-5 '>
@@ -83,8 +94,14 @@ export default function Loginform() {
 
 
       <p className='text-center'>Don't have an account? <Link className='text-green-600 font-bold' href={'/signup'}>Sign up</Link></p>
+      <p className='text-center'>don't remember your password? <button onClick={()=>{
+       setemailpopup(true)
+      }} className='text-green-600 font-bold cursor-pointer'>ForgotPassword</button></p>
     </form>
 
   </section>
+ {emailpopup?<Forgotpassword email2={email2} setemail={setemail} setforgotpopup={setemailpopup} setreset={setresetcodepopup}/>  :''}
+ {resetcodepopup?<Resetcode email2={email2} setresetpasspopup={setresetpasswordpopup} setreset={setresetcodepopup}/>:''}
+ {resetpasswordpopup?<ResetPassword setresetpasspopup={setresetpasswordpopup}/>:''}
   </>
 }

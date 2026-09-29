@@ -1,18 +1,21 @@
 'use client'
 import { faClose, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Dispatch, SetStateAction, useState } from "react";
-import { createreview } from "../server/review.server";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { createreview, deletereview, updatereview } from "../server/review.server";
 import { toast } from "react-toastify";
 import { getproductreviews } from "../server/getproducts.server";
 import { Review } from "../types/review.types";
+import { useAppSelector } from "@/store/store";
 
 
-export default function Popupreview({productname,productid,setpopup,setreviewsofproduct}:{
+export default function Popupreview({productname,productid,setpopup,setreviewsofproduct,reviews}:{
     productname:string,
     productid:string,
     setpopup:Dispatch<SetStateAction<boolean>>,
-    setreviewsofproduct:Dispatch<SetStateAction<null|Review[]>>
+    setreviewsofproduct:Dispatch<SetStateAction<null|Review[]>>,
+    reviews:Review[]|null,
+    
 }) {
     const rev:Record<number,string>={
         0:'poor',
@@ -34,11 +37,43 @@ export default function Popupreview({productname,productid,setpopup,setreviewsof
        const reviewresponse=await getproductreviews(productid)
        setreviewsofproduct(reviewresponse.data)
        setpopup(false)
+       console.log(response);
+       
+       
+       
+      
 
        } catch (error) {
         toast.error('something went wrong')
        }
     }
+    const handleupdate=async(values:{review:string,rating:number})=>{
+      try {
+         if(mylastreview){
+         const response=await updatereview(values,mylastreview._id)
+         
+         toast.success('your review is updated')
+          const reviewresponse=await getproductreviews(productid)
+       setreviewsofproduct(reviewresponse.data)
+        setpopup(false)
+         
+
+       }
+      } catch (error) {
+        toast.error('something went wrong')
+      }
+    }
+   
+    const {userinfo}=useAppSelector((state)=>{
+            return state.auth
+        })
+    const mylastreview=reviews?.find((review)=>review.user._id===userinfo?.id)
+   useEffect(()=>{
+     if(mylastreview){
+        setreviewcomment(mylastreview.review)
+        setselectedreview(mylastreview.rating)
+    }
+   },[])
 
     
   return <>
@@ -51,7 +86,7 @@ export default function Popupreview({productname,productid,setpopup,setreviewsof
     }} className="bg-white p-5 max-w-xl w-full shadow-xl rounded-xl ">
         <div className="flex items-center justify-between">
            <div>
-             <p className="font-bold">Write a review</p>
+             <p className="font-bold">{mylastreview?'Edit Review':'Write Review'}</p>
         <p className="text-gray-400">{productname}</p>
            </div>
            <button onClick={()=>{
@@ -75,7 +110,7 @@ export default function Popupreview({productname,productid,setpopup,setreviewsof
         </div>
         <div className="mt-5">
             <h3 className="font-bold">Your Review</h3>
-            <textarea onChange={(e)=>{
+            <textarea value={reviewcomment} onChange={(e)=>{
                 setreviewcomment(e.target.value)
             }} placeholder="what did you like or dislike? How was the fit,quality,or deivery?" className="h-32 w-full rounded-lg p-2 focus:outline-none border focus:border-green-400 border-gray-400/30"></textarea>
         </div>
@@ -84,8 +119,8 @@ export default function Popupreview({productname,productid,setpopup,setreviewsof
                 setpopup(false)
             }} className="bg-white py-1 border hover:bg-gray-100 border-gray-500/50 rounded-xl ">cancel</button>
             <button onClick={()=>{
-                selectedreview!=null?handlesubmit({review:reviewcomment,rating:selectedreview}):''
-            }} className="bg-[#22C55E] py-1 hover:bg-green-700  text-white shadow-lg rounded-xl">submit review</button>
+                mylastreview&&selectedreview!=null?handleupdate({review:reviewcomment,rating:selectedreview+1}):selectedreview!=null?handlesubmit({review:reviewcomment,rating:selectedreview+1}):''
+            }} className="bg-[#22C55E] py-1 hover:bg-green-700  text-white shadow-lg rounded-xl">{mylastreview?'Update Review':'Submit Review'}</button>
         </div>
 
     </div>
