@@ -14,7 +14,7 @@ import { Dispatch, SetStateAction } from "react"
 
 
 export default function ResetPassword({setresetpasspopup}:{setresetpasspopup:Dispatch<SetStateAction<boolean>>}) {
-    const {register,handleSubmit,formState:{errors}}=useForm<Resetpasstype>({
+    const {register,handleSubmit,watch,formState:{errors}}=useForm<Resetpasstype>({
         defaultValues:{
             email:'',
             newPassword:''
@@ -24,6 +24,14 @@ export default function ResetPassword({setresetpasspopup}:{setresetpasspopup:Dis
         
         
     })
+    const newpass=watch('newPassword')
+    const haslength=newpass.length>=8
+    const hasuppercase=/[A-Z]/.test(newpass)
+    const haslowercase=/[a-z]/.test(newpass)
+    const hasnumber=/[0-9]/.test(newpass)
+    const hasspecialchar=/[#?!@$%^&*-]/.test(newpass)
+    const strength=Number(haslength)+Number(hasuppercase)+Number(haslowercase)+Number(hasspecialchar)+Number(hasnumber)
+    const bar=Math.ceil((strength/5)*4)
     const onsubmit=async(values:Resetpasstype)=>{
         
         
@@ -50,11 +58,11 @@ export default function ResetPassword({setresetpasspopup}:{setresetpasspopup:Dis
             setresetpasspopup(false)
         }}  href={'/login'}><FontAwesomeIcon icon={faArrowLeft}/> Back To Login</Link>
     </div>
-    <div className="image relative h-64 w-64 mx-auto">
+    <div className="image relative md:h-64 md:w-64 h-20 w-20 mx-auto">
         <Image src={resetpass} alt="lock" fill/>
     </div>
     <div className="space-y-5">
-        <h2 className="text-3xl font-bold">Create New Password</h2>
+        <h2 className="md:text-3xl text-2xl font-bold">Create New Password</h2>
     <p className="text-gray-500">Your new password must be different from previously used passwords</p>
     </div>
     <div className="inputs  mt-5">
@@ -80,6 +88,15 @@ export default function ResetPassword({setresetpasspopup}:{setresetpasspopup:Dis
 
             </div>
             {errors.newPassword?<p className="text-red-500">{errors.newPassword.message}</p>:''}
+            <div className="flex flex-wrap items-center  gap-3 mt-5">
+                {[1,2,3,4].map((item,index)=>{
+                    return <div key={index} className={`h-2 md:w-1/5 w-1/8 transition-all duration-500 bg-gray-400 ${item<=Math.ceil((strength/5)*4)?'bg-green-500':'bg-gray-400'}`}>
+
+
+                    </div>
+                })}
+                <span className="md:w-1/5 w-1/3">{bar==1?'Weak':bar==2?'good':bar==3?'strong':bar==4?'very strong':''}</span>
+            </div>
         </div>
         <button type='submit'  className='btn w-full my-5 p-3 text-white mt-4 '>Reset Password <FontAwesomeIcon icon={faArrowRight}/></button>
         

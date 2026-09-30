@@ -4,7 +4,7 @@ import Image from "next/image"
 import resetimage from '../../../assets/images/resetcode.png'
 import Link from "next/link"
 import Divider from "@/components/Ui/divider/Divider"
-import { Dispatch, SetStateAction, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import { verifyresetcode } from "../server/auth.server"
 import { toast } from "react-toastify"
 
@@ -13,6 +13,7 @@ export default function Resetcode({setreset,email2,setresetpasspopup}:{setreset:
     const regex = /^\d?$/;
     const [code,setcode]=useState(['','','','','',''])
     const inputref=useRef<(HTMLInputElement|null)[]>([])
+    const [time,settime]=useState(600)
     const handlecange=(index:number,value:string)=>{
         if(!regex.test(value)){
             return;
@@ -43,6 +44,19 @@ export default function Resetcode({setreset,email2,setresetpasspopup}:{setreset:
             
         }
     }
+    useEffect(()=>{
+        if(time==0){
+            return
+        }
+        const interval=setInterval(()=>{
+            settime((prev)=>{
+                return prev-1
+            })
+        },1000)
+        return ()=>clearInterval(interval)
+    },[time])
+    const minutes=Math.floor(time/60)
+    const seconds=time%60
   return <>
   <div className='overlay bg-gray-400/30 fixed inset-0 flex items-center justify-center'>
   <form className='bg-white shadow-lg max-w-xl mx-auto w-full p-10'>
@@ -52,11 +66,11 @@ export default function Resetcode({setreset,email2,setresetpasspopup}:{setreset:
             setreset(false)
         }}  href={'/login'}><FontAwesomeIcon icon={faArrowLeft}/> Back To Login</Link>
     </div>
-    <div className="image relative h-64 w-64 mx-auto">
+    <div className="image relative md:h-64 md:w-64 h-20 w-20 mx-auto">
         <Image src={resetimage} alt="envelope" fill/>
     </div>
     <div className="space-y-5">
-        <h2 className="text-3xl font-bold">Enter Reset Code</h2>
+        <h2 className="md:text-3xl text-2xl font-bold">Enter Reset Code</h2>
     <p className="text-gray-500">we've sent a 6-digit code to your email address please enter it below to continue</p>
     </div>
     <div className="mt-5">
@@ -83,7 +97,10 @@ export default function Resetcode({setreset,email2,setresetpasspopup}:{setreset:
                 }
             }}/>
         })}
-
+ <span className="hidden md:block">{minutes} : {seconds.toString().padStart(2,'0')}</span>
+    </div>
+    <div className="text-center mt-2 md:hidden  ">
+        <span>{minutes} : {seconds.toString().padStart(2,'0')}</span>
     </div>
 
 <button onClick={()=>{

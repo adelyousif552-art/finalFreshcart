@@ -94,7 +94,7 @@ export default function Loginform() {
 
 
       <p className='text-center'>Don't have an account? <Link className='text-green-600 font-bold' href={'/signup'}>Sign up</Link></p>
-      <p className='text-center'>don't remember your password? <button onClick={()=>{
+      <p className='text-center'>don't remember your password? <button type='button'  onClick={()=>{
        setemailpopup(true)
       }} className='text-green-600 font-bold cursor-pointer'>ForgotPassword</button></p>
     </form>

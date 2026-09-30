@@ -41,11 +41,11 @@ export default function Forgotpassword({setforgotpopup,setreset,email2,setemail}
             
         }} href={'/login'}><FontAwesomeIcon icon={faArrowLeft}/> Back To Login</Link>
     </div>
-    <div className="image relative h-64 w-64 mx-auto">
+    <div className="image relative md:h-64 md:w-64 h-20 w-20 mx-auto">
         <Image src={envelope} alt="envelope" fill/>
     </div>
     <div className="space-y-5">
-        <h2 className="text-3xl font-bold">Forgot Your Password ?</h2>
+        <h2 className="md:text-3xl text-2xl font-bold">Forgot Your Password ?</h2>
     <p className="text-gray-500">No Worries! Enter your Email Address and we will send you a code to reset your password</p>
     </div>
     <div className="mt-5">
