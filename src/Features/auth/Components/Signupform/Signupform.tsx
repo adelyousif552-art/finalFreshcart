@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation'
 
 export default function Signupform() {
   const router=useRouter()
-  const {register,handleSubmit,setError,formState:{errors,isSubmitting,isDirty,isValid}}=useForm<signupschematype>({
+  const {register,handleSubmit,watch,setError,formState:{errors,isSubmitting,isDirty,isValid}}=useForm<signupschematype>({
     defaultValues:{
       name:'',
       email:'',
@@ -32,6 +32,14 @@ export default function Signupform() {
     reValidateMode:'onChange'
     
   })
+   const newpass=watch('password')
+    const haslength=newpass.length>=8
+    const hasuppercase=/[A-Z]/.test(newpass)
+    const haslowercase=/[a-z]/.test(newpass)
+    const hasnumber=/[0-9]/.test(newpass)
+    const hasspecialchar=/[#?!@$%^&*-]/.test(newpass)
+    const strength=Number(haslength)+Number(hasuppercase)+Number(haslowercase)+Number(hasspecialchar)+Number(hasnumber)
+    const bar=Math.ceil((strength/5)*4)
   const onsubmit:SubmitHandler<signupschematype>=async function(values){
    const response=await signupAction(values)
    if(response?.success){
@@ -73,6 +81,15 @@ export default function Signupform() {
      {errors.phone?<p className='text-red-500'>{errors.phone.message}</p>:''}
     <Formfield register={register} classname='form-control' name={'password'} id={'Password'} type={'password'} elementtype={'input'} label='Password'/>
      {errors.password?<p className='text-red-500'>{errors.password.message}</p>:''}
+     <div className="flex flex-wrap items-center  gap-3 mt-5">
+                {[1,2,3,4].map((item,index)=>{
+                    return <div key={index} className={`h-2 md:w-1/6 w-1/8 transition-all duration-500 bg-gray-400 ${item<=Math.ceil((strength/5)*4)?'bg-green-500':'bg-gray-400'}`}>
+
+
+                    </div>
+                })}
+                <span className="md:w-1/5 text-center w-1/3">{bar==1?'Weak':bar==2?'good':bar==3?'strong':bar==4?'very strong':''}</span>
+            </div>
     <Formfield register={register} classname='form-control' name={'rePassword'} id={'confirmpassword'} type={'password'} elementtype={'input'} label='Confirm Password'/>
      {errors.rePassword?<p className='text-red-500'>{errors.rePassword.message}</p>:''}
     
