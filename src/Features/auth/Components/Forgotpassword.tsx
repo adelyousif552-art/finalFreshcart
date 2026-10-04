@@ -10,6 +10,7 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import Divider from "@/components/Ui/divider/Divider";
 import { UseFormRegister } from "react-hook-form";
 import { toast } from "react-toastify";
+import axios, { isAxiosError } from "axios";
 
 export default function Forgotpassword({setforgotpopup,setreset,email2,setemail}:{setforgotpopup:Dispatch<SetStateAction<boolean>>,setreset:Dispatch<SetStateAction<boolean>>
     email2:string,
@@ -19,18 +20,27 @@ export default function Forgotpassword({setforgotpopup,setreset,email2,setemail}
      const forgpassword=async(value:{email:string})=>{
       try {
         const response=await forgotpassword(value)
-        
+        if(response?.success){
+            
             toast.success('code sent to your email')
             setforgotpopup(false)
             setTimeout(() => {
                 setreset(true)
             }, 3000);
+        }else{
+            toast.error(response?.message)
+        }
         
         
       } catch (error) {
-        throw error
-      }
-    }
+        console.log(error);
+        
+        if(axios.isAxiosError(error)){
+            toast.error(error.response?.data.message||'something went wrong')
+            console.log('axiossssssssssssssss');
+            
+        }
+    }}
   return <>
   <div className='overlay bg-gray-400/30 fixed inset-0 flex items-center justify-center'>
   <form className='bg-white shadow-lg max-w-xl mx-auto w-full p-10'>

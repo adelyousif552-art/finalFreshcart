@@ -50,6 +50,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     products:null
   }
   const authvalues=await verifytoken()
+  console.log("auth values :",authvalues);
+  
   if(authvalues.isauthinticated){
    try {
      const response=await getusercart()

@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 import {FontAwesomeIcon} from'../../../../node_modules/@fortawesome/react-fontawesome'
-import {faAddressCard, faArrowDown, faArrowRightFromBracket, faBabyCarriage, faBars, faBolt, faBurger, faEllipsis, faEnvelope, faHome, faHospital, faList, faPerson, faPersonDress, faPhone, faRightFromBracket, faRotate, faSearch, faShoppingBag, faShoppingCart, faUserPlus, faXmark} from'../../../../node_modules/@fortawesome/free-solid-svg-icons'
-import {faHeart, faUser} from'../../../../node_modules/@fortawesome/free-regular-svg-icons'
+import {faAddressCard, faArrowDown, faArrowRightFromBracket, faBabyCarriage, faBars, faBolt, faEllipsis, faEnvelope, faHome, faHospital, faList, faPerson, faPersonDress, faPhone, faRightFromBracket, faRotate, faSearch, faShoppingBag, faShoppingCart, faUserPlus, faXmark} from'../../../../node_modules/@fortawesome/free-solid-svg-icons'
+import {faCircleUser, faHeart, faUser} from'../../../../node_modules/@fortawesome/free-regular-svg-icons'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from "motion/react"
@@ -16,6 +16,9 @@ export default function Navbar() {
   })
    const {numofitems}=useAppSelector((state)=>{
     return state.wishlist
+  })
+  const {userinfo}=useAppSelector((state)=>{
+    return state.auth
   })
   const [menuisopen,setmenuisopen]=useState(false)
   const currentpath=usePathname()
@@ -81,8 +84,8 @@ export default function Navbar() {
             <input type="text" name="searchinput" id="searchid" className=' form-control py-1 px-5' placeholder='Search for products...' />
             <FontAwesomeIcon className='size-3 absolute top-1/2 right-3 -translate-y-1/2' icon={faSearch}/>
           </div>
-          <ul className='lg:flex hidden items-center gap-10 *:hover:text-green-600 *:transition-all *:duration-200 *:cursor-pointer'>
-            <li className=' w-fit '>
+          <ul className='lg:flex hidden items-center gap-10 '>
+            <li className=' w-fit hover:text-green-600 transition-all duration-200 cursor-pointer '>
               <Link className={`${currentpath==='/wishlist'?'text-green-600':''} flex flex-col items-center`} href={'/wishlist'}>
               <div className='relative'>
                 <FontAwesomeIcon className='size-5' icon={faHeart}/>
@@ -91,7 +94,7 @@ export default function Navbar() {
               <span>Wishlist</span></Link>
             </li>
             
-            <li className=' w-fit '>
+            <li className=' w-fit hover:text-green-600 transition-all duration-200 cursor-pointer '>
               <Link className={`${currentpath==='/cart'?'text-green-600':''} flex flex-col items-center`} href={'/cart'}>
               <div className='relative '>
                 <FontAwesomeIcon className='size-5' icon={faShoppingCart}/>
@@ -100,12 +103,25 @@ export default function Navbar() {
               <span>Cart</span>
               </Link>
             </li>
-             <li className=' w-fit flex flex-col items-center'>
-              <FontAwesomeIcon className='size-5' icon={faUser}/>
+             <li className=' group w-fit relative   '>
+              <div className='hover:text-green-600 gap-1 flex flex-col items-center transition-all duration-200 cursor-pointer'>
+                <FontAwesomeIcon className='size-5' icon={faUser}/>
               <span>Account</span>
+              </div>
+               <div className='bg-white absolute hidden group-hover:block   z-40 w-40 top-full  p-3 shadow-xl '>
+                <ul className='space-y-3 *:hover:bg-green-50 *:py-2 *:cursor-pointer *:hover:text-green-700'>
+                  <li className='space-x-3'>
+                    <FontAwesomeIcon icon={faCircleUser}/>
+                    <span>{userinfo?.name.slice(0,userinfo.name.indexOf(" "))}</span>
+                  </li>
+                  <li className='space-x-3'>
+                    <FontAwesomeIcon icon={faUser}/>
+                    <Link href={'/profile'}>update profile</Link></li>
+                </ul>
+               </div>
             </li>
             {isauthinticated?
-            <li onClick={logout} className=' w-fit flex flex-col items-center '>
+            <li onClick={logout} className=' w-fit hover:text-green-600 transition-all duration-200 cursor-pointer gap-1 flex flex-col items-center '>
              
               <FontAwesomeIcon className='size-5' icon={faRightFromBracket}/>
               <span>Logout</span>
@@ -113,12 +129,12 @@ export default function Navbar() {
             </li>:
             <>
              <li className=' w-fit '>
-             <Link className='flex flex-col items-center' href={'/signup'}>
+             <Link className='flex hover:text-green-600 transition-all duration-200 cursor-pointer flex-col items-center' href={'/signup'}>
               <FontAwesomeIcon className='size-5' icon={faUserPlus}/>
               <span>Signup</span>
              </Link>
             </li>
-            <li className=' w-fit '>
+            <li className=' w-fit hover:text-green-600 transition-all duration-200 cursor-pointer '>
              <Link className='flex flex-col items-center' href={'/login'}>
               <FontAwesomeIcon className='size-5' icon={faAddressCard}/>
               <span>Login</span>
@@ -262,7 +278,7 @@ export default function Navbar() {
                 </Link>
               </li>
               <li >
-                <Link  className='space-x-2 w-full' href={'/'}>
+                <Link  className='space-x-2 w-full' href={'/profile'}>
                 <FontAwesomeIcon icon={faUser}/>
                 <span>user</span></Link>
               </li>
@@ -307,6 +323,7 @@ export default function Navbar() {
 
 
   </header>
+ 
   
   
   </>

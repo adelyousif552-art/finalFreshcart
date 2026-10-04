@@ -1,8 +1,11 @@
 'use server'
 
-import axios, { AxiosRequestConfig } from "axios"
+
+import axios, { Axios, AxiosRequestConfig } from "axios"
 import { cookies } from "next/headers"
 import { Resetpasstype } from "../schemas/resetpass.schema"
+import { error } from "console"
+import { updateschematype } from "../schemas/updateschema"
 
 export async function settoken(token:string,rememberme:boolean):Promise<void>{
     const cookiestore=await cookies()
@@ -75,9 +78,17 @@ export async function forgotpassword(value:{email:string}){
             data:value
         }
         const {data}=await axios.request(options)
-        return data
+        return {
+            success:true,
+            data
+        }
     } catch (error) {
-        throw error
+       if(axios.isAxiosError(error)){
+         return {
+            success:false,
+            message:error.response?.data.message||'something went wrong'
+        }
+       }
     }
 }
 export async function verifyresetcode(value:{resetCode:string}){
@@ -106,4 +117,26 @@ export async function Resetpass(values:Resetpasstype){
         throw error
     }
 
+}
+export async function updateprofile(values:updateschematype){
+    const cookiestore=await cookies()
+    const token =cookiestore.get('token')?.value||null
+    if(!token){
+        throw error('Authentication required')
+    }
+    try {
+        const options:AxiosRequestConfig={
+            url:'https://ecommerce.routemisr.com/api/v1/users/updateMe/',
+            method:'PUT',
+            headers:{
+                token
+            },
+            data:values
+            
+        }
+        const {data}=await axios.request(options)
+        return data
+    } catch (error) {
+        throw error
+    }
 }

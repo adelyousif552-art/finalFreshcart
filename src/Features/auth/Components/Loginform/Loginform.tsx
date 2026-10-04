@@ -38,6 +38,8 @@ export default function Loginform() {
       console.log(errors);
       
         const response=await Loginserver(values)
+        
+        
         if(response?.success){
           toast.success(response.message)
           await settoken(response.data.token,values.terms)
