@@ -90,12 +90,12 @@ export default function ResetPassword({setresetpasspopup}:{setresetpasspopup:Dis
             {errors.newPassword?<p className="text-red-500">{errors.newPassword.message}</p>:''}
             <div className="flex flex-wrap items-center  gap-3 mt-5">
                 {[1,2,3,4].map((item,index)=>{
-                    return <div key={index} className={`h-2 md:w-1/5 w-1/8 transition-all duration-500 bg-gray-400 ${item<=Math.ceil((strength/5)*4)?'bg-green-500':'bg-gray-400'}`}>
+                    return <div key={index} className={`h-2 md:w-1/6 w-1/9  transition-all duration-500 bg-gray-400 ${item<=Math.ceil((strength/5)*4)?'bg-green-500':'bg-gray-400'}`}>
 
 
                     </div>
                 })}
-                <span className="md:w-1/5 w-1/3">{bar==1?'Weak':bar==2?'good':bar==3?'strong':bar==4?'very strong':''}</span>
+                <span className="  block w-fit">{bar==1?'Weak':bar==2?'good':bar==3?'strong':bar==4?'very strong':''}</span>
             </div>
         </div>
         <button type='submit'  className='btn w-full my-5 p-3 text-white mt-4 '>Reset Password <FontAwesomeIcon icon={faArrowRight}/></button>

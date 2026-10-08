@@ -7,6 +7,7 @@ import Divider from "@/components/Ui/divider/Divider"
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import { verifyresetcode } from "../server/auth.server"
 import { toast } from "react-toastify"
+import axios from "axios"
 
 
 export default function Resetcode({setreset,email2,setresetpasspopup}:{setreset:Dispatch<SetStateAction<boolean>>,email2:string,setresetpasspopup:Dispatch<SetStateAction<boolean>>}) {
@@ -32,16 +33,20 @@ export default function Resetcode({setreset,email2,setresetpasspopup}:{setreset:
     const verifycode=async(value:{resetCode:string})=>{
         try {
             const response=await verifyresetcode(value)
-            console.log(response);
+            if(response.success){
+                
             
                 toast.success('success')
                 setresetpasspopup(true)
                 setreset(false)
+            }else{
+                toast.error(response.message);
+            }
+            
             
             
         } catch (error) {
            toast.error('something went wrong')
-            
         }
     }
     useEffect(()=>{

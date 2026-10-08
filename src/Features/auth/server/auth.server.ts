@@ -6,6 +6,7 @@ import { cookies } from "next/headers"
 import { Resetpasstype } from "../schemas/resetpass.schema"
 import { error } from "console"
 import { updateschematype } from "../schemas/updateschema"
+import { success } from "zod"
 
 export async function settoken(token:string,rememberme:boolean):Promise<void>{
     const cookiestore=await cookies()
@@ -99,9 +100,21 @@ export async function verifyresetcode(value:{resetCode:string}){
             data:value
         }
         const {data}=await axios.request(options)
-        return data
+        return {
+            success:true,
+            data
+        }
     } catch (error) {
-        throw error
+        if(axios.isAxiosError(error)){
+            return {
+                success:false,
+                message:error.response?.data.message||'something went wrong'
+            }
+        }
+        return {
+            success:false,
+            message:'something went wrong'
+        }
     }
 }
 export async function Resetpass(values:Resetpasstype){
