@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { addressformtype, Addressschema } from "../schema/checkoutschema";
 import Formfield from "@/components/Ui/Formfield/Formfield";
 import { faCcMastercard } from "@fortawesome/free-brands-svg-icons";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cardorder, cashorder } from "../server/Checkout.server";
 import { useAppDispatch, useAppSelector } from "@/store/store";
@@ -13,16 +13,17 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { clearcart } from "@/Features/cart/server/cart.server";
 import { cartactions } from "@/Features/cart/store/cart.slice";
+import { set } from "zod";
 
 
-export default function Checkoutdetails() {
+export default function Checkoutdetails({setsubmitting}:{setsubmitting:Dispatch<SetStateAction<boolean>>}) {
     const {setcartinfo}=cartactions
     const dispatch=useAppDispatch()
     const router=useRouter()
     const {cartId}=useAppSelector((state)=>{
         return state.cart
     })
-    const {register,handleSubmit,formState:{errors}}=useForm<addressformtype>(
+    const {register,handleSubmit,formState:{errors,isSubmitting}}=useForm<addressformtype>(
         {
             defaultValues:{
                 details:'',
@@ -35,7 +36,7 @@ export default function Checkoutdetails() {
 
     )
     const onsubmit:SubmitHandler<addressformtype>=async (values)=>{
-        console.log(values);
+        setsubmitting(true)
         
         try {
             if(selected=='cash'&&cartId){
@@ -50,6 +51,8 @@ export default function Checkoutdetails() {
                      router.push('/allorders')
                    }, 2000);
 
+                }else{
+                    toast.error(response.message)
                 }
             }else if(selected=='card'&&cartId){
                 const response=await cardorder(cartId,values,location.origin)
@@ -58,8 +61,9 @@ export default function Checkoutdetails() {
                     setTimeout(() => {
                         location.href=response.session.url
                     }, 3000);
-                    const clearcartresponse=await clearcart()
-                    dispatch(setcartinfo(clearcartresponse))
+                    
+                }else{
+                    toast.error(response.message)
                 }
                 
 

@@ -9,7 +9,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { OrderResponse } from "../types/Checkout.types";
 
 
-export async function cashorder(cartid:string,shippingAddress:addressformtype):Promise<OrderResponse>{
+export async function cashorder(cartid:string,shippingAddress:addressformtype):Promise<OrderResponse|{status:string,message:string}>{
     const cookiestore= await cookies()
     const token=cookiestore.get('token')?.value
     if(!token){
@@ -32,7 +32,16 @@ export async function cashorder(cartid:string,shippingAddress:addressformtype):P
         const {data}=await axios.request(options)
         return data
     } catch (error) {
-        throw error
+        if(axios.isAxiosError(error)){
+            return {
+                status:'error',
+                message:error.response?.data.message
+            }
+        }
+        return{
+            status:'erroe',
+            message:'something went wrong'
+        }
     }
 
 }
@@ -55,7 +64,16 @@ export async function cardorder(cartid:string,shippingAddress:addressformtype,ur
         const {data}=await axios.request(options)
         return data
     } catch (error) {
-        throw error
+        if(axios.isAxiosError(error)){
+            return {
+                status:'error',
+                message:error.response?.data.message
+            }
+        }
+        return{
+            status:'erroe',
+            message:'something went wrong'
+        }
     }
 
 }

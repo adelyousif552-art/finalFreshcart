@@ -105,7 +105,7 @@ export default function Signupform() {
       </>}</button>
 
 
-      <p className='text-center'>Already have an account? <Link className='text-green-600 font-bold' href={'/signin'}>Sign in</Link></p>
+      <p className='text-center'>Already have an account? <Link className='text-green-600 font-bold' href={'/login'}>Sign in</Link></p>
     </form>
 
   </section>

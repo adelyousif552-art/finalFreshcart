@@ -9,27 +9,61 @@ import Ordercard from "../components/Ordercard";
 import { OrdersResponse } from "../types/order.types";
 import NoOrders from "../components/NoOrders";
 import PageLoader from "@/components/Ui/PageLoader";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 
 export default function Ordersscreen() {
+  const router=useRouter()
+  const [failed,setfailed]=useState(false)
+  const [attempt,setattempt]=useState(0)
    const {userinfo}=useAppSelector((state)=>{
     return state.auth
    })
-  if(!userinfo){
+   const [orders,setorders]=useState<null|OrdersResponse>(null)
+   const id=userinfo?.id
+   useEffect(()=>{
+    if(!userinfo){
+router.push('/login')
     return
   }
-  const {id}=userinfo
-  const [orders,setorders]=useState<null|OrdersResponse>(null)
-  useEffect(()=>{
     const fetchorders=async()=>{
         if(id){
-            const response=await getuserorders(id)
-            setorders(response)
+           try {
+             const response=await getuserorders(id)
+            if(response.success){
+              if(response.data){
+ setorders(response.data)
+              }
+             
+            }else{
+              toast.error('Failed to fetch orders')
+            setfailed(true)
+            }
+           } catch (error) {
+            
+           }
         }
 
     }
     fetchorders()
-  },[])
+  },[id,attempt,router])
+  
+   if (failed) {
+    return (
+      <section className="max-w-7xl mx-auto w-full p-10 text-center">
+        <p className="text-gray-500">We couldn&apos;t load your orders.</p>
+        <button
+          onClick={() => { setfailed(false); setattempt((a) => a + 1) }}
+          className="btn text-white mt-3"
+        >
+          Try again
+        </button>
+      </section>
+    )
+  }
+  
+ 
   if(!orders){
     return <PageLoader/>
   }

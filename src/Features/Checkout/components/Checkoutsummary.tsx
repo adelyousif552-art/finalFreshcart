@@ -1,11 +1,11 @@
 'use client'
 import { useAppSelector } from "@/store/store";
-import { faLock, faTruck, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faSpinner, faTruck, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 
 
-export default function Checkoutsummary() {
+export default function Checkoutsummary({submitting}:{submitting:boolean }) {
     const {numOfCartItems,products,totalcartprice}=useAppSelector((state)=>{
         return state.cart
     })
@@ -52,7 +52,7 @@ export default function Checkoutsummary() {
             <span className="font-bold">Total</span>
             <span className="text-green-500 text-xl font-bold">{total} <span className="text-sm text-gray-500">EGP</span></span>
         </div>
-        <button form="checkout-form" type="submit" className="btn w-full text-white"><FontAwesomeIcon icon={faWallet}/> Place Order</button>
+        <button disabled={submitting} form="checkout-form" type="submit" className="btn w-full disabled:bg-gray-400 disabled:cursor-not-allowed  text-white"><FontAwesomeIcon icon={faWallet}/> {submitting?<><FontAwesomeIcon spin icon={faSpinner}/> Placing</>:"Place Order"}</button>
         </div>
     </div>
 

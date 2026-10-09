@@ -20,10 +20,14 @@ import Image from "next/image";
 import boy from '../../../assets/images/boy.png'
 import { object } from "zod";
 import Popupreview from "./Popupreview";
-import { useAppSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { deletereview } from "../server/review.server";
 import { toast } from "react-toastify";
+import { addtocart, updatequantity } from "@/Features/cart/server/cart.server";
+import { cartactions } from "@/Features/cart/store/cart.slice";
 export default function Productinfo({data}:{data:Product}) {
+    const {setcartinfo}=cartactions
+    const dispatch=useAppDispatch()
     const islowstock=data.quantity>0&&data.quantity<10
     const onsale=data.priceAfterDiscount?data.priceAfterDiscount<data.price:false
     const [number,setnumber]=useState(1)
@@ -80,6 +84,20 @@ export default function Productinfo({data}:{data:Product}) {
         }
     })}
     console.log(ratingreview);
+    const handlecart=async()=>{
+        const response=await addtocart({productid:data._id})
+        if(response.status==='success'){
+            toast.success('product added to cart')
+            
+            const response2=await updatequantity(data._id,number)
+            dispatch(setcartinfo(response2))
+        }else{
+            toast.error('something went wrong')
+        }
+        
+        
+
+    }
     
     
 
@@ -116,16 +134,18 @@ showNav={false}
         <p className="text-sm text-gray-500">{data.description}</p>
         <label htmlFor="quantity">Quantity</label>
         <div className="border  border-gray-500 p-3 w-fit">
-            <button onClick={()=>{
+            <button onClick={async()=>{
                if(number>0){
                  setnumber(number-1)
+                 
                }
             }} className="p-1 cursor-pointer hover:bg-gray-200/50 transition-all duration-200" ><FontAwesomeIcon icon={faMinus}/></button>
             <input value={number} onChange={(e)=>{
                 setnumber(+e.target.value)
             }} type="number" min={1} className=" w-20 px-5 text-center focus:outline-none " />
-            <button onClick={()=>{
+            <button onClick={async()=>{
                 setnumber(number+1)
+                
             }} className="p-1 cursor-pointer hover:bg-gray-200/50 transition-all duration-200" ><FontAwesomeIcon icon={faPlus}/></button>
 
         </div>
@@ -134,8 +154,8 @@ showNav={false}
             <span className="text-green-700 font-bold text-2xl">{data.priceAfterDiscount?<span>{data.priceAfterDiscount*number} EGP</span>:<span className="text-green-700 font-bold text-2xl">{data.price*number} EGP</span>}</span>
         </div>
         <div className="flex items-center *:grow gap-3 ">
-            <button className="text-white btn"><FontAwesomeIcon icon={faCartShopping}/> <span>Add to cart</span></button>
-            <button className="text-white btn hover:bg-black/70 bg-black"><FontAwesomeIcon icon={faBolt}/> <span>Buy Now</span></button>
+            <button onClick={handlecart}  className="text-white btn"><FontAwesomeIcon icon={faCartShopping}/> <span>Add to cart</span></button>
+           
         </div>
         <div className="flex items-center gap-2">
             <button className="bg-white hover:bg-gray-200/50 btn grow border border-gray-400"><FontAwesomeIcon icon={faHeart} /> <span>Add to Wishlist</span></button>
