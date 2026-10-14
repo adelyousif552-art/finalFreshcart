@@ -43,8 +43,12 @@ export default function Checkoutdetails({setsubmitting}:{setsubmitting:Dispatch<
                 const response=await cashorder(cartId,values)
                 if(response.status=='success'){
                     toast.success(response.message)
-                    const clearcartresponse=await clearcart()
+                   try {
+                     const clearcartresponse=await clearcart()
                     dispatch(setcartinfo(clearcartresponse))
+                   } catch (error) {
+                    toast.error('Failed to clear cart')
+                   }
 
 
                    setTimeout(() => {
@@ -53,6 +57,7 @@ export default function Checkoutdetails({setsubmitting}:{setsubmitting:Dispatch<
 
                 }else{
                     toast.error(response.message)
+                    setsubmitting(false)
                 }
             }else if(selected=='card'&&cartId){
                 const response=await cardorder(cartId,values,location.origin)
@@ -64,12 +69,14 @@ export default function Checkoutdetails({setsubmitting}:{setsubmitting:Dispatch<
                     
                 }else{
                     toast.error(response.message)
+                    setsubmitting(false)
                 }
                 
 
             }
         } catch (error) {
-            throw error
+            toast.error('Could not place your order. Please try again.')
+    setsubmitting(false)
         }
         
 
