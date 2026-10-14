@@ -10,9 +10,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { email } from "zod";
 
-export const metadata: Metadata = {
-  title: "Profile",
-};
+
 export default function page() {
 const dispatch=useAppDispatch()
     const {userinfo}=useAppSelector((state)=>{
