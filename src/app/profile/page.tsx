@@ -5,11 +5,14 @@ import { updateprofile } from "@/Features/auth/server/auth.server";
 import { setauth } from "@/Features/auth/store/auth.slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Metadata } from "next";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { email } from "zod";
 
-
+export const metadata: Metadata = {
+  title: "Profile",
+};
 export default function page() {
 const dispatch=useAppDispatch()
     const {userinfo}=useAppSelector((state)=>{

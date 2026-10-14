@@ -2,7 +2,15 @@ import { getspecificcategory } from "@/Features/categories/server/categories.ser
 import Productcard from "@/Features/Products/components/productcard";
 import { getallproducts } from "@/Features/Products/server/getproducts.server";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Metadata } from "next";
 import Image from "next/image";
+export async function generateMetadata({params}:{params:Promise<{id:string}>}){
+const {id}=await params
+const category=await getspecificcategory(id)
+return{
+  title:`categories/${category.data.name}`
+}
+}
 
 
 export default async function page({params}:{
