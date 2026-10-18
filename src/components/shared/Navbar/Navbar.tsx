@@ -86,7 +86,7 @@ export default function Navbar() {
               setsearchinput(e.target.value)
             }} type="text" name="searchinput" onKeyDown={(e:React.KeyboardEvent<HTMLInputElement>)=>{
               if(e.key=='Enter'&&searchinput.trim()){
-                router.push(`/Search/${searchinput.trim()}`)
+                router.push(`/Search/${encodeURIComponent(searchinput.trim())}`)
               }
 
             }} id="searchid" className=' form-control py-1 px-5' placeholder='Search for products...' />
@@ -255,7 +255,7 @@ export default function Navbar() {
               setsearchinput(e.target.value)
             }}  name="searchinput" id="searchid" onKeyDown={(e:React.KeyboardEvent<HTMLInputElement>)=>{
               if(e.key=='Enter'&&searchinput.trim()){
-                router.push(`/Search/${searchinput.trim()}`)
+                router.push(`/Search/${encodeURIComponent(searchinput.trim())}`)
               }
 
             }}  className=' form-control placeholder:text-gray-300 border border-gray-500  py-1 px-5' placeholder='Search for products...' />

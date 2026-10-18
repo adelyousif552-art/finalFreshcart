@@ -6,13 +6,13 @@ import { getallproducts } from "@/Features/Products/server/getproducts.server"
 export default async function page({params}:{params:Promise<{q:string}>}) {
     const {q}=await params
     const response=await getallproducts()
-    const matchedproducts=response.data.filter((product)=>product.title.toLowerCase().includes(q.toLowerCase()))
+    const matchedproducts=response.data.filter((product)=>product.title.toLowerCase().includes(decodeURIComponent(q).toLowerCase()))
 console.log('matched',matchedproducts);
 
   return <>
  <div className="max-w-6xl mx-auto w-full bg-white p-5">
      <header >
-    <h1 className="font-bold text-4xl">Results for <span className="text-green-600">"{q}"</span></h1>
+    <h1 className="font-bold text-4xl">Results for <span className="text-green-600">"{decodeURIComponent(q)}"</span></h1>
     <p className="text-gray-400"><span className="font-bold text-black">{matchedproducts.length}</span> {matchedproducts.length>1?'Products':'product'} Found</p>
   </header>
  
