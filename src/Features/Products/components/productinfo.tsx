@@ -25,8 +25,12 @@ import { deletereview } from "../server/review.server";
 import { toast } from "react-toastify";
 import { addtocart, updatequantity } from "@/Features/cart/server/cart.server";
 import { cartactions } from "@/Features/cart/store/cart.slice";
+import { addtowishlist, getuserwishlist } from "@/Features/wishlist/server/wishlist.server";
+import { wishlistactions } from "@/Features/wishlist/store/wishlist.slice";
+import axios from "axios";
 export default function Productinfo({data}:{data:Product}) {
     const {setcartinfo}=cartactions
+    const {setwishlistitems}=wishlistactions
     const dispatch=useAppDispatch()
     const islowstock=data.quantity>0&&data.quantity<10
     const onsale=data.priceAfterDiscount?data.priceAfterDiscount<data.price:false
@@ -98,6 +102,29 @@ export default function Productinfo({data}:{data:Product}) {
         
 
     }
+    const addwish=async()=>{
+        try {
+            console.log('tryyyyyyyyy');
+            
+            const response=await addtowishlist(data.id)
+            if(response.status=='success'){
+                toast.success('product added to wishlist')
+                const userwishlist=await getuserwishlist()
+                dispatch(setwishlistitems(userwishlist))
+
+            }
+            else{
+                toast.error('failed to add to wishlist ')
+            }
+            
+        } catch (error) {
+           if(error instanceof Error){
+            toast.error(error.message)
+           }
+           
+            
+        }
+    }
     
     
 
@@ -158,8 +185,8 @@ showNav={false}
            
         </div>
         <div className="flex items-center gap-2">
-            <button className="bg-white hover:bg-gray-200/50 btn grow border border-gray-400"><FontAwesomeIcon icon={faHeart} /> <span>Add to Wishlist</span></button>
-            <button className="btn bg-white border hover:bg-gray-200/50 border-gray-400"><FontAwesomeIcon icon={faShareNodes}/></button>
+            <button onClick={addwish} className="bg-white hover:bg-gray-200/50 btn grow border border-gray-400"><FontAwesomeIcon icon={faHeart} /> <span>Add to Wishlist</span></button>
+            
         </div>
         
     </div>

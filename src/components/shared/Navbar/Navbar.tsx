@@ -11,6 +11,7 @@ import { statestype, useAppSelector } from '@/store/store'
 import useLogout from '@/Features/auth/hooks/uselogout'
 
 export default function Navbar() {
+  const [searchinput,setsearchinput]=useState('')
   const {numOfCartItems}=useAppSelector((state)=>{
     return state.cart
   })
@@ -81,8 +82,17 @@ export default function Navbar() {
             <FontAwesomeIcon icon={faBars}/>
           </button>
           <div className="search hidden lg:block relative max-w-xl w-md   ">
-            <input type="text" name="searchinput" id="searchid" className=' form-control py-1 px-5' placeholder='Search for products...' />
-            <FontAwesomeIcon className='size-3 absolute top-1/2 right-3 -translate-y-1/2' icon={faSearch}/>
+            <input onChange={(e)=>{
+              setsearchinput(e.target.value)
+            }} type="text" name="searchinput" onKeyDown={(e:React.KeyboardEvent<HTMLInputElement>)=>{
+              if(e.key=='Enter'&&searchinput.trim()){
+                router.push(`/Search/${searchinput.trim()}`)
+              }
+
+            }} id="searchid" className=' form-control py-1 px-5' placeholder='Search for products...' />
+            <FontAwesomeIcon onClick={()=>{
+              router.push(`/Search/${searchinput}`)
+            }} className='size-3 absolute top-1/2 right-3 -translate-y-1/2' icon={faSearch}/>
           </div>
           <ul className='lg:flex hidden items-center gap-10 '>
             <li className=' w-fit hover:text-green-600 transition-all duration-200 cursor-pointer '>
@@ -241,8 +251,18 @@ export default function Navbar() {
         </button>
       </div>
       <div className="search relative      ">
-            <input type="text" name="searchinput" id="searchid" className=' form-control placeholder:text-gray-300 border border-gray-500  py-1 px-5' placeholder='Search for products...' />
-            <FontAwesomeIcon className='size-3 absolute top-1/2 right-3 -translate-y-1/2' icon={faSearch}/>
+            <input type="text" onChange={(e)=>{
+              setsearchinput(e.target.value)
+            }}  name="searchinput" id="searchid" onKeyDown={(e:React.KeyboardEvent<HTMLInputElement>)=>{
+              if(e.key=='Enter'&&searchinput.trim()){
+                router.push(`/Search/${searchinput.trim()}`)
+              }
+
+            }}  className=' form-control placeholder:text-gray-300 border border-gray-500  py-1 px-5' placeholder='Search for products...' />
+            <FontAwesomeIcon onClick={()=>{
+              router.push(`/Search/${searchinput}`)
+              setmenuisopen(false)
+            }} className='size-3 absolute top-1/2 right-3 -translate-y-1/2' icon={faSearch}/>
           </div>
 
           <div className="mainmenu">

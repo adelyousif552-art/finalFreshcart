@@ -29,7 +29,7 @@ export async function addtowishlist(productid:string){
      const cookiestore=await cookies()
     const token =cookiestore.get('token')?.value||null
     if(!token){
-        throw error('Authintication required')
+        throw new Error('Authentication required')
     }
     try {
         const options:AxiosRequestConfig={

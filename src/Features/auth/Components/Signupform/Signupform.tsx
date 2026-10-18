@@ -66,8 +66,8 @@ export default function Signupform() {
     <p className='text-sm text-gray-500'>Start your fresh journey with us today</p>
     </div>
     <div className='flex  justify-center items-center space-x-3 px-5 *:grow '>
-      <button className='btn bg-white border border-gray-300  '><FontAwesomeIcon className='text-red-500' icon={faGoogle}/> Google</button>
-      <button className='btn bg-white border border-gray-300  '><FontAwesomeIcon className='text-blue-500' icon={faFacebookF}/> Facebook</button>
+      <button disabled={true} className='btn disabled:cursor-not-allowed bg-white border border-gray-300  '><FontAwesomeIcon className='text-red-500' icon={faGoogle}/> Google</button>
+      <button disabled={true} className='btn disabled:cursor-not-allowed bg-white border border-gray-300  '><FontAwesomeIcon className='text-blue-500' icon={faFacebookF}/> Facebook</button>
     </div>
     <Divider text='OR' classname='before:w-2/5 after:w-2/5'/>
     <form className='space-y-5' onSubmit={handleSubmit(onsubmit)}>

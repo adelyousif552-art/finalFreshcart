@@ -6,10 +6,17 @@ import { Metadata } from "next";
 import Image from "next/image";
 export async function generateMetadata({params}:{params:Promise<{id:string}>}){
 const {id}=await params
+try {
 const category=await getspecificcategory(id)
-return{
-  title:`categories/${category.data.name}`
+  return{
+  title:`${category.data.name}`
 }
+} catch (error) {
+  return{
+    title:`categories`
+  }
+}
+
 }
 
 

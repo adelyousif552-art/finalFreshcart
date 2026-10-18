@@ -65,7 +65,7 @@ export default function Loginform() {
     <div className='text-center'>
       <h1 className='font-bold text-4xl'><span className='text-green-600'>Fresh</span>Cart</h1>
       <h3 className='font-bold text-2xl'>Welcome Back!</h3>
-    <p className='text-sm text-gray-500'>SIgn in to continue your fresh shopping experience</p>
+    <p className='text-sm text-gray-500'>Sign in to continue your fresh shopping experience</p>
     </div>
     
       <button className='btn  w-full bg-white border border-gray-300  '><FontAwesomeIcon className='text-red-500' icon={faGoogle}/>Continue with Google</button>

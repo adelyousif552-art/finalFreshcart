@@ -10,7 +10,7 @@ export default function Footer() {
       <section className="lg:col-span-2 space-y-3">
         <h1 className="font-bold text-xl"><span className="text-green-500">Fresh</span>Cart</h1>
         <p>FreshCart is your one-stop destination for fresh groceries<br/>
-        orgainc produce, and househeld essentials delivered right to <br/>
+        organic produce, and househeld essentials delivered right to <br/>
         your doorstep
         </p>
         <div className="icons text-gray-500 space-x-2 *hover:text-gray-800 *:transition-all *:duration-200">
@@ -36,7 +36,7 @@ export default function Footer() {
           <span>Baby & Toys</span>
           </Link>
           </li>
-       <li><Link className='space-x-2' href={'/categories/6439d2d167d9aa4ca970649f'}>
+       <li><Link className='space-x-2' href={'/categories/6439d30b67d9aa4ca97064b1'}>
           <span>Beauty & Health</span>
           </Link>
           </li>
