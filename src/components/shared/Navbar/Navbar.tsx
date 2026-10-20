@@ -89,7 +89,7 @@ export default function Navbar() {
 
             }} id="searchid" className=' form-control py-1 px-5' placeholder='Search for products...' />
             <FontAwesomeIcon onClick={()=>{
-              router.push(`/Search/${searchinput}`)
+              router.push(`/search/${searchinput}`)
             }} className='size-3 absolute top-1/2 right-3 -translate-y-1/2' icon={faSearch}/>
           </div>
           <ul className='lg:flex hidden items-center gap-10 '>
@@ -253,7 +253,7 @@ export default function Navbar() {
               setsearchinput(e.target.value)
             }}  name="searchinput" id="searchid" onKeyDown={(e:React.KeyboardEvent<HTMLInputElement>)=>{
               if(e.key=='Enter'&&searchinput.trim()){
-                router.push(`/Search/${encodeURIComponent(searchinput.trim())}`)
+                router.push(`/search/${encodeURIComponent(searchinput.trim())}`)
               }
 
             }}  className=' form-control placeholder:text-gray-300 border border-gray-500  py-1 px-5' placeholder='Search for products...' />
