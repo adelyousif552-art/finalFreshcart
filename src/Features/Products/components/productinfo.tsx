@@ -34,11 +34,7 @@ export default function Productinfo({data}:{data:Product}) {
         return state.auth
     })
     const router=useRouter()
-    if(!isauthinticated){
-        toast.error('please login first');
-        router.push('/login')
-        return 
-    }
+   
     const {setcartinfo}=cartactions
     const {setwishlistitems}=wishlistactions
     const dispatch=useAppDispatch()
@@ -99,6 +95,11 @@ export default function Productinfo({data}:{data:Product}) {
     })}
     console.log(ratingreview);
     const handlecart=async()=>{
+        if(!isauthinticated){
+          toast.error('please login first');
+          router.push('/login')
+          return 
+      }
         const response=await addtocart({productid:data._id})
         if(response.status==='success'){
             toast.success('product added to cart')
@@ -113,8 +114,13 @@ export default function Productinfo({data}:{data:Product}) {
 
     }
     const addwish=async()=>{
+        if(!isauthinticated){
+          toast.error('please login first');
+          router.push('/login')
+          return 
+      }
         try {
-            console.log('tryyyyyyyyy');
+            
             
             const response=await addtowishlist(data.id)
             if(response.status=='success'){

@@ -48,9 +48,7 @@ export default function Navbar() {
             </div>
             <div className="rightside">
               <ul className='flex items-center gap-3'>
-                <li><Link href='/trackorder'>Track Order</Link></li>
-                <li><Link href='/about'>About</Link></li>
-                <li><Link href='/contact'>Contact</Link></li>
+                
                 <li>
                   <select className='w-15' >
                     
@@ -76,7 +74,7 @@ export default function Navbar() {
             router.push('/')
 
           }} className='font-bold cursor-pointer text-3xl'><span className='text-green-500'>Fresh</span>Cart</h1>
-          <button onClick={()=>{
+          <button aria-expanded={menuisopen} onClick={()=>{
             setmenuisopen(!menuisopen)
           }} className="menubar cursor-pointer active:bg-green-500 hover:bg-green-500 transition-all duration-200 lg:hidden  bg-green-600 text-white size-8 flex items-center justify-center rounded-lg">
             <FontAwesomeIcon icon={faBars}/>
@@ -190,7 +188,7 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
-          <Link className='space-x-2 block  h-full p-2 w-full' href={'/categories/6439d40367d9aa4ca97064cc'}>
+          <Link className='space-x-2 block  h-full p-2 w-full' href={'/categories/6439d30b67d9aa4ca97064b1'}>
           <FontAwesomeIcon  icon={faHospital} />
           <span>Beauty & Health</span>
           </Link>
@@ -260,7 +258,7 @@ export default function Navbar() {
 
             }}  className=' form-control placeholder:text-gray-300 border border-gray-500  py-1 px-5' placeholder='Search for products...' />
             <FontAwesomeIcon onClick={()=>{
-              router.push(`/Search/${searchinput}`)
+              router.push(`/search/${encodeURIComponent(searchinput.trim())}`)
               setmenuisopen(false)
             }} className='size-3 absolute top-1/2 right-3 -translate-y-1/2' icon={faSearch}/>
           </div>

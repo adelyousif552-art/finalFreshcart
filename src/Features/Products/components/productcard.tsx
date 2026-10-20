@@ -23,6 +23,11 @@ export default function Productcard({product}:{product:Product}) {
       
   const {setwishlistitems}=wishlistactions
   const addwish=async()=>{
+    if(!isauthinticated){
+          toast.error('please login first');
+          router.push('/login')
+          return 
+      }
     try {
       const response=await addtowishlist(product.id)
       if(response.status=='success'){
@@ -36,7 +41,11 @@ export default function Productcard({product}:{product:Product}) {
     }
   }
   const handlecart=async ()=>{
-   console.log("yousif");
+   if(!isauthinticated){
+          toast.error('please login first');
+          router.push('/login')
+          return 
+      }
    
     try {
        const response=await addtocart({productid:product._id})
@@ -58,11 +67,7 @@ export default function Productcard({product}:{product:Product}) {
     }
   }
   const router=useRouter()
-  if(!isauthinticated){
-          toast.error('please login first');
-          router.push('/login')
-          return 
-      }
+  
     const {_id,brand,category,createdAt,description,imageCover,price,ratingsAverage,quantity,title,priceAfterDiscount,ratingsQuantity,subcategory}=product
     const onsale=priceAfterDiscount?priceAfterDiscount<price:false
     const percentage=priceAfterDiscount?Math.round((price-priceAfterDiscount)/price*100):0
