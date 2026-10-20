@@ -117,11 +117,10 @@ src/
 
 ## 🗺️ Roadmap
 
-- [ ] Global product search
+
 - [ ] Shop pagination and sorting
 - [ ] Promo codes
 - [ ] Brand pages
-- [ ] Route protection with middleware
 - [ ] Unit and end-to-end tests
 
 ---

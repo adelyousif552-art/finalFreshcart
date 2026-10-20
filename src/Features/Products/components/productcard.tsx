@@ -10,13 +10,17 @@ import Rating from "@/components/shared/Rating/Rating";
 import { useRouter } from "next/navigation";
 import { addtocart } from "@/Features/cart/server/cart.server";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { cartactions } from "@/Features/cart/store/cart.slice";
 import { addtowishlist, getuserwishlist } from "@/Features/wishlist/server/wishlist.server";
 import { wishlistactions } from "@/Features/wishlist/store/wishlist.slice";
 
 export default function Productcard({product}:{product:Product}) {
-  
+   const {isauthinticated}=useAppSelector((state)=>{
+          return state.auth
+      })
+     
+      
   const {setwishlistitems}=wishlistactions
   const addwish=async()=>{
     try {
@@ -54,6 +58,11 @@ export default function Productcard({product}:{product:Product}) {
     }
   }
   const router=useRouter()
+  if(!isauthinticated){
+          toast.error('please login first');
+          router.push('/login')
+          return 
+      }
     const {_id,brand,category,createdAt,description,imageCover,price,ratingsAverage,quantity,title,priceAfterDiscount,ratingsQuantity,subcategory}=product
     const onsale=priceAfterDiscount?priceAfterDiscount<price:false
     const percentage=priceAfterDiscount?Math.round((price-priceAfterDiscount)/price*100):0

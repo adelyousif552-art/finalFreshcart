@@ -33,8 +33,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   
   title:{
-    default:'Freshcart',
-    template:'%s | E-commerce'
+    default:'FreshCart | Fresh Groceries, Fashion & More',
+    template:'%s | FreshCart'
   },
   description: "Your one-stop destination for groceries, fashion, electronics and more.",
 };

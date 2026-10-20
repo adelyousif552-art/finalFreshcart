@@ -86,7 +86,7 @@ export default function Navbar() {
               setsearchinput(e.target.value)
             }} type="text" name="searchinput" onKeyDown={(e:React.KeyboardEvent<HTMLInputElement>)=>{
               if(e.key=='Enter'&&searchinput.trim()){
-                router.push(`/Search/${encodeURIComponent(searchinput.trim())}`)
+                router.push(`/search/${encodeURIComponent(searchinput.trim())}`)
               }
 
             }} id="searchid" className=' form-control py-1 px-5' placeholder='Search for products...' />

@@ -1,7 +1,7 @@
 'use server'
 
 import axios, { AxiosRequestConfig } from "axios"
-import { error } from "console"
+
 import { cookies } from "next/headers"
 import { ProductResponse } from "../types/wishlist.types"
 
@@ -9,7 +9,7 @@ export async function getuserwishlist():Promise<ProductResponse>{
     const cookiestore=await cookies()
     const token =cookiestore.get('token')?.value||null
     if(!token){
-        throw error('Authintication required')
+        throw new Error('Authintication required')
     }
     try {
         const options:AxiosRequestConfig={
@@ -53,7 +53,7 @@ export async function deletewish(productid:string){
      const cookiestore=await cookies()
     const token =cookiestore.get('token')?.value||null
     if(!token){
-        throw error('Authintication required')
+        throw new Error('Authintication required')
     }
     try {
         const options:AxiosRequestConfig={

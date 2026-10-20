@@ -1,4 +1,4 @@
-'use server'
+
 import Productcard from "@/Features/Products/components/productcard"
 import { getallproducts } from "@/Features/Products/server/getproducts.server"
 

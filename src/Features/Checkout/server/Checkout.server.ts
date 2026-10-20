@@ -4,7 +4,7 @@
 
 import { cookies } from "next/headers";
 import { addressformtype } from "../schema/checkoutschema";
-import { error } from "console";
+
 import axios, { AxiosRequestConfig } from "axios";
 import { OrderResponse } from "../types/Checkout.types";
 
@@ -13,7 +13,7 @@ export async function cashorder(cartid:string,shippingAddress:addressformtype):P
     const cookiestore= await cookies()
     const token=cookiestore.get('token')?.value
     if(!token){
-        throw  error('Authentication required')
+        throw  new Error('Authentication required')
     }
     try {
         const options:AxiosRequestConfig={
@@ -49,7 +49,7 @@ export async function cardorder(cartid:string,shippingAddress:addressformtype,ur
     const cookiestore= await cookies()
     const token=cookiestore.get('token')?.value
     if(!token){
-        throw  error('Authentication required')
+        throw  new Error('Authentication required')
     }
     try {
         const options:AxiosRequestConfig={
@@ -71,7 +71,7 @@ export async function cardorder(cartid:string,shippingAddress:addressformtype,ur
             }
         }
         return{
-            status:'erroe',
+            status:'error',
             message:'something went wrong'
         }
     }

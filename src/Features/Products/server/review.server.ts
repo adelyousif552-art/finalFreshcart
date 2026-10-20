@@ -1,7 +1,7 @@
 'use server'
 
 import axios, { AxiosRequestConfig } from "axios"
-import { error } from "console"
+
 import { cookies } from "next/headers"
 
 export async function createreview(value:{
@@ -11,7 +11,7 @@ export async function createreview(value:{
      const cookiestore=await cookies()
     const token =cookiestore.get('token')?.value||null
     if(!token){
-        throw error('Authintication required')
+        throw new Error('Authintication required')
     }
 
     try {
@@ -37,7 +37,7 @@ export async function updatereview(value:{
      const cookiestore=await cookies()
     const token =cookiestore.get('token')?.value||null
     if(!token){
-        throw error('Authintication required')
+        throw new Error('Authintication required')
     }
 
     try {
@@ -60,7 +60,7 @@ export async function deletereview(reviewid:string){
      const cookiestore=await cookies()
     const token =cookiestore.get('token')?.value||null
     if(!token){
-        throw error('Authintication required')
+        throw new Error('Authintication required')
     }
 
     try {

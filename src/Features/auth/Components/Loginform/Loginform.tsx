@@ -68,8 +68,8 @@ export default function Loginform() {
     <p className='text-sm text-gray-500'>Sign in to continue your fresh shopping experience</p>
     </div>
     
-      <button className='btn  w-full bg-white border border-gray-300  '><FontAwesomeIcon className='text-red-500' icon={faGoogle}/>Continue with Google</button>
-      <button className='btn w-full bg-white border border-gray-300  '><FontAwesomeIcon className='text-blue-500' icon={faFacebookF}/>Continue withFacebook</button>
+      <button disabled={true} className='btn disabled:cursor-not-allowed  w-full bg-white border border-gray-300  '><FontAwesomeIcon className='text-red-500' icon={faGoogle}/>Continue with Google</button>
+      <button disabled={true} className='btn w-full disabled:cursor-not-allowed bg-white border border-gray-300  '><FontAwesomeIcon className='text-blue-500' icon={faFacebookF}/>Continue withFacebook</button>
     
     <Divider classname='before:w-1/4 after:w-1/4' text='OR CONTINUE WITH EMAIL'/>
     <form className='space-y-5' onSubmit={handleSubmit(onsubmit)} >

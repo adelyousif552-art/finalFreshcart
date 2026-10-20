@@ -46,24 +46,14 @@ export default function Footer() {
           </li>
       </ul>
     </section>
-     <section className="space-y-3">
-      <h2 className="font-bold">Quick Links</h2>
-      <ul className="text-gray-500 space-y-3 *:hover:text-gray-800 *:transition-all *:duration-200 *:cursor-pointer">
-       <li><Link href={'/aboutus'}>About Us</Link></li>
-       <li><Link href={'/contactus'}>Contact Us</Link></li>
-       <li><Link href={'/privacypolicy'}>Privacy Policy</Link></li>
-       <li><Link href={'/termsofservice'}>Terms of Service</Link></li>
-       <li><Link href={'/shippingpolicy'}>Shipping Policy</Link></li>
-      </ul>
-    </section>
+    
      <section className="space-y-3">
       <h2 className="font-bold">Customer Service</h2>
       <ul className="text-gray-500 space-y-3 *:hover:text-gray-800 *:transition-all *:duration-200 *:cursor-pointer">
-       <li><Link href={'/myaccount'}>My Account</Link></li>
+       <li><Link href={'/profile'}>My Account</Link></li>
        <li><Link href={'/allorders'}>Order History</Link></li>
        <li><Link href={'/wishlist'}>Wishlist</Link></li>
-       <li><Link href={'/returnsfunds'}>Returns & Refunds</Link></li>
-       <li><Link href={'/helpcenter'}>Help Center</Link></li>
+      
       </ul>
     </section>
     </div>

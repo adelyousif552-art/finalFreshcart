@@ -1,7 +1,7 @@
 'use server'
 
 import axios, { Axios, AxiosRequestConfig } from "axios"
-import { error } from "console"
+
 import { cookies } from "next/headers"
 import { CartResponse } from "../types/cart.types"
 
@@ -11,7 +11,7 @@ export async function addtocart({productid}:{
     const cookiesstore=await cookies()
     const token=cookiesstore.get('token')?.value
     if(!token){
-        throw  error('Authentication needed')
+        throw  new Error('Authentication needed')
     }
     try {
         const options:AxiosRequestConfig={
@@ -36,7 +36,7 @@ export async function getusercart():Promise<CartResponse>{
     const cookiestore=await cookies()
     const token=cookiestore.get('token')?.value
     if(!token){
-        throw error('Authentication needed')
+        throw new Error('Authentication needed')
     }
     try {
         const options:AxiosRequestConfig={
@@ -56,7 +56,7 @@ export async function removeproduct(id:string):Promise<CartResponse>{
     const cookiesstore=await cookies()
     const token=cookiesstore.get('token')?.value
     if(!token){
-        throw error('Authorization required')
+        throw new Error('Authorization required')
     }
     try {
         const options:AxiosRequestConfig={
@@ -78,7 +78,7 @@ export async function updatequantity(productid:string,count:number):Promise<Cart
      const cookiesstore=await cookies()
     const token=cookiesstore.get('token')?.value
     if(!token){
-        throw error('Authorization required')
+        throw new Error('Authorization required')
     }
     try {
         const options:AxiosRequestConfig={
@@ -103,7 +103,7 @@ export async function clearcart():Promise<CartResponse>{
     const cookiestore=await cookies()
     const token=cookiestore.get('token')?.value
     if(!token){
-        throw error('Authentication needed')
+        throw new Error('Authentication needed')
     }
     try {
         const options:AxiosRequestConfig={

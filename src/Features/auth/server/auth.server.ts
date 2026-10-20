@@ -4,9 +4,9 @@
 import axios, { Axios, AxiosRequestConfig } from "axios"
 import { cookies } from "next/headers"
 import { Resetpasstype } from "../schemas/resetpass.schema"
-import { error } from "console"
+
 import { updateschematype } from "../schemas/updateschema"
-import { success } from "zod"
+
 
 export async function settoken(token:string,rememberme:boolean):Promise<void>{
     const cookiestore=await cookies()
@@ -135,7 +135,7 @@ export async function updateprofile(values:updateschematype){
     const cookiestore=await cookies()
     const token =cookiestore.get('token')?.value||null
     if(!token){
-        throw error('Authentication required')
+        throw new Error('Authentication required')
     }
     try {
         const options:AxiosRequestConfig={

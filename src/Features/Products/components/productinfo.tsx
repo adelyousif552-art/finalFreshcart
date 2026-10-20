@@ -28,7 +28,17 @@ import { cartactions } from "@/Features/cart/store/cart.slice";
 import { addtowishlist, getuserwishlist } from "@/Features/wishlist/server/wishlist.server";
 import { wishlistactions } from "@/Features/wishlist/store/wishlist.slice";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 export default function Productinfo({data}:{data:Product}) {
+    const {isauthinticated}=useAppSelector((state)=>{
+        return state.auth
+    })
+    const router=useRouter()
+    if(!isauthinticated){
+        toast.error('please login first');
+        router.push('/login')
+        return 
+    }
     const {setcartinfo}=cartactions
     const {setwishlistitems}=wishlistactions
     const dispatch=useAppDispatch()
